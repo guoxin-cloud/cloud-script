@@ -1,0 +1,6 @@
+*** Settings ***
+Documentation     DEMO
+
+*** Test Cases ***
+DEMO
+    Log    Hi,Good job!
