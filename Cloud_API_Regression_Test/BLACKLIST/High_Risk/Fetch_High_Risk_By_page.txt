@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/high_risk_api_resource.txt
+
+*** Test Cases ***
+Fetch High Risk By Page
+    [Tags]    page
+    [Template]    Fetch_High_Risk_By_Page_Temp
+    TestData01: 获取存在的信息    15311446193    1    ${EMPTY}    1    [{u'createTime': u'2016-06-24 14:14:57', u'value': u'15311446193', u'id': u'1E1E9C72AB434C8F83354C776C002C9E'}, {u'createTime': u'2016-06-25 11:03:33', u'value': u'15311446193', u'id': u'330D8A41FBC740B9AFAD7BC8109BCFB6'}, {u'createTime': u'2016-06-24 10:19:42', u'value': u'15311446193', u'id': u'3AD7BB292BE34F13A3EA8177DA616095'}, {u'createTime': u'2016-06-24 11:04:53', u'value': u'15311446193', u'id': u'5047F8CC75F24A59BBF80AB59A83ED6C'}, {u'createTime': u'2016-06-24 09:49:20', u'value': u'15311446193', u'id': u'63FCC3C2971D4215BECC8A1FE5C85F86'}, {u'createTime': u'2016-06-24 14:13:53', u'value': u'15311446193', u'id': u'731B06CEE6DA4D18A512AE3CB7BE1148'}, {u'createTime': u'2016-06-24 09:46:03', u'value': u'15311446193', u'id': u'9DA257F2889B4BCB9B043A94FCBDEBFB'}, {u'createTime': u'2016-06-24 10:17:17', u'value': u'15311446193', u'id': u'DA692748E88C4F46AB230F4413628CFC'}, {u'createTime': u'2016-06-24 13:57:56', u'value': u'15311446193', u'id': u'DF9E177ED3A7413F860F5F5FF80DCA62'}, {u'createTime': u'2016-06-25 11:02:14', u'value': u'15311446193', u'id': u'E1E3E5EFA2A4425D8D8B7E3B02939A78'}]
+    TestData02: 获取不存在的信息    胡思乱想    100    ${EMPTY}    1    ${EMPTY}
+
+*** Keywords ***
+Fetch_High_Risk_BY_Page_Temp
+    [Arguments]    ${testdata_info}    ${value}    ${currentPage}    ${cookie}    ${success}    ${resp_result}
+    log    ${testdata_info}
+    ${resp}=    fetch high risk by page    ${cookie}    ${value}    ${currentPage}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    Run Keyword if    "${resp[2]}"!="[]"    Should Be Equal As Strings    ${resp_result}    ${resp[2]}

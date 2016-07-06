@@ -1,0 +1,58 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add blacklist
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${ADD_BLACKLIST_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()[‘success’]}
+    log    ${success}
+    [Return]    ${resp}    ${success}
+
+update blacklist by id
+    [Arguments]    ${cookie}    ${id}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${UPDATE_BLACKLIST_URL}    ${cookie}    id    ${id}
+    ...    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    [Return]    ${resp}    ${success}
+
+fetch blacklist by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_ID_URL}    ${cookie}    id    ${id}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    ${status1}    ${resp_id}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['id']}
+    [Return]    ${resp}    ${success}    ${resp_id}
+
+fetch blacklist by value
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_VALUE_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    ${status1}    ${resp_value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}    ${resp_value}
+
+fetch blacklist by page
+    [Arguments]    ${cookie}    ${currentPage}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_PAGE_URL}    ${cookie}    currentPage    ${currentPage}
+    ...    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${resp_resultList}    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['resultList']}
+    ${resp_result}=    Convert To List    ${resp_resultList}
+    log    ${resp_result}
+    [Return]    ${resp}    ${success}    ${resp_resultList}
+
+delete blacklist by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${DELETE_BLACKLIST_BY_ID_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    [Return]    ${resp}    ${success}
+
+delete blacklist by value
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${DELETE_BLACKLIST_BY_VALUE_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    [Return]    ${resp}    ${success}

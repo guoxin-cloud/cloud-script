@@ -1,0 +1,15 @@
+*** Settings ***
+Resource          ../RESOURCE/sms_api_resource.txt
+
+*** Test Cases ***
+Fetch Balance
+    [Tags]    sms1
+    [Template]    Fetch_Balance_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    MW    0    1
+
+*** Keywords ***
+Fetch_Balance_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${channel}    ${biz}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch balance    ${cookie}    ${channel}    ${biz}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

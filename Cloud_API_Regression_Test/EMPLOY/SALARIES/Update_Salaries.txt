@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/salaries_info_api_resource.txt
+
+*** Test Cases ***
+Update Salaries
+    [Tags]    employ5
+    [Template]    Update_Salaries_Temp
+    TestData01: 成功更新信息    ${EMPTY}    00C513C9D0B24648B2C183363BA71F9A    14B781F1367949A8B4113AE56CEA8271    浦发银行    1
+    TestData02: 更新不存在的信息    ${EMPTY}    1    1    1    0
+
+*** Keywords ***
+Update_Salaries_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${employeeId}    ${accountBank}    ${success}
+    log    ${testdata_info}
+    ${resp}=    update salaries    ${cookie}    ${id}    ${employeeId}    ${accountBank}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

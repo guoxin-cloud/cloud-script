@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Delete Sim Platfrom
+    [Tags]    platform10
+    [Template]    Delete_Sim_Platform_Temp
+    TestData01: 成功删除信息    ${EMPTY}    4    1
+    TestData01: 删除不存在的信息    ${EMPTY}    200    0
+
+*** Keywords ***
+Delete_Sim_Platform_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    log    ${testdata_info}
+    ${resp}=    delete sim_account    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

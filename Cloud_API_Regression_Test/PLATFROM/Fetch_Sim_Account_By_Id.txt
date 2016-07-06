@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Fetch Sim_Account By Id
+    [Tags]    platform12
+    [Template]    Fetch_Sim_Account_By _Id_Temp
+    TestData01: 成功获取信息    5    ${EMPTY}    1
+    TestData02: 成功不存在的信息    1000    ${EMPTY}    0
+
+*** Keywords ***
+Fetch_Sim_Account_By _Id_Temp
+    [Arguments]    ${testdata_info}    ${id}    ${cookie}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch sim_account by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,22 @@
+*** Settings ***
+Resource          ../../RESOURCE/close_reason_api_resource.txt
+
+*** Test Cases ***
+Update Close Reason
+    [Tags]    close2
+    [Template]    Update_Close_Reason_Temp
+    TestData01: 成功更新信息    ${EMPTY}    26    测试    2    1938    true
+    ...    1
+    TestData02: 更新不存在的信息    ${EMPTY}    1    测试    2    1938    true
+    ...    0
+
+*** Keywords ***
+Update_Close_Reason_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${content}    ${creatorId}    ${roomId}
+    ...    ${isAdmin}    ${success}
+    comment    ${resp_add}=    add close reason    ${cookie}    ${content}    ${creatorId}    ${roomId}
+    ...    ${isAdmin}
+    comment    ${status}    ${resp_value}=    Run Keyword And Ignore Error    Set Variable    ${resp_add.json()['value']}
+    ${resp}=    update close reason    ${cookie}    ${id}    ${content}    ${creatorId}    ${roomId}
+    ...    ${isAdmin}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

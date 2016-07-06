@@ -1,0 +1,40 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add close reason
+    [Arguments]    ${cookie}    ${content}    ${creatorId}    ${roomId}    ${isAdmin}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${ADD_CLOSE_REASON_URL}    ${cookie}    content    ${content}
+    ...    creatorId    ${creatorId}    roomId    ${roomId}    isAdmin    ${isAdmin}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${resp_value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}    ${resp_value}
+
+update close reason
+    [Arguments]    ${cookie}    ${id}    ${content}    ${creatorId}    ${roomId}    ${isAdmin}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${UPDATE_CLOSE_REASON_URL}    ${cookie}    id    ${id}
+    ...    content    ${content}    creatorId    ${creatorId}    roomId    ${roomId}
+    ...    isAdmin    ${isAdmin}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()[‘success’]}
+    [Return]    ${resp}    ${success}
+
+delete close reason
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${DELETE_CLOSE_REASON_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch close reason
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${FETCH_CLOSE_REASON_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${resp_id}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['id']}
+    [Return]    ${resp}    ${success}    ${resp_id}
+
+fetch close reason by page
+    [Arguments]    ${cookie}    ${content}    ${currentPage}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${FETCH_CLOSE_REASON_BY_PAGE_URL}    ${cookie}    content    ${content}
+    ...    currentPage    ${currentPage}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${resp_content}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['resultList']['content']}
+    [Return]    ${resp}    ${success}    ${resp_content}

@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Fetch Platfrom Register Process By id
+    [Tags]    platform8
+    [Template]    Fetch_Platfrom_Register_Process_By _id_Temp
+    TestData01: 成功获取信息    ${EMPTY}    1    1
+    TestData02: 获取不存在的信息    ${EMPTY}    100    0
+
+*** Keywords ***
+Fetch_Platfrom_Register_Process_By _id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${platformid}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch platfrom register process by id    ${platformid}    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

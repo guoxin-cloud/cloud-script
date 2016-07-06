@@ -1,0 +1,8 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Fetch Platfrom Register Process By List
+
+*** Keywords ***
+Fetch_Platfrom_Register_Process_By_List_Temp

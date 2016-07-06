@@ -1,0 +1,18 @@
+*** Settings ***
+Resource          ../../RESOURCE/close_reason_api_resource.txt
+
+*** Test Cases ***
+Fetch Close Reason By Page
+    [Tags]    close5
+    [Template]    Fetch_Close_Reason_By_Page_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    测试    1    1
+
+*** Keywords ***
+Fetch_Close_Reason_By_Page_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${content}    ${currentPage}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch close reason by page    ${cookie}    ${currentPage}    ${content}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    ${resp_result}=    Convert To List    ${resp[2]}
+    log    ${resp_result}
+    Run Keyword If    ${resp_result}!=[]    Should Contain    ${resp[2]}    ['resultList']['content']

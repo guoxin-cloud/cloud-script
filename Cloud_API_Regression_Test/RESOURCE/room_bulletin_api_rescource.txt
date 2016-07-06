@@ -1,0 +1,37 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add room bulletin
+    [Arguments]    ${cookie}    ${content}    ${creatorId}    ${roomId}    ${isAdmin}    ${startTime}
+    ...    ${endTime}    ${isDeleted}    ${title}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${ADD_ROOM_BULLETIN_URL}    ${cookie}    content    ${content}
+    ...    creatorId    ${creatorId}    roomId    ${roomId}    isAdmin    ${isAdmin}
+    ...    startTime    ${startTime}    endTime    ${endTime}    isDeleted    ${isDeleted}
+    ...    title    ${title}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${resp_value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}    ${resp_value}
+
+update room bulletin
+    [Arguments]    ${cookie}    ${id}    ${content}    ${creatorId}    ${title}    ${modifierId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${UPDATE_ROOM_BULLETIN_URL}    ${cookie}    id    ${id}
+    ...    content    ${content}    creatorId    ${creatorId}    title    ${title}
+    ...    modifierId    ${modifierId}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete room bulletin
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${DELETE_ROOM_BULLETIN_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch room bulletin by page
+    [Arguments]    ${cookie}    ${content}    ${currentPage}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CLOSE_REASON_PORT}    ${FETCH_ROOM_BULLETIN_BY_PAGE_URL}    ${cookie}    content    ${content}
+    ...    currentPage    ${currentPage}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${resp_content}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['resultList']['mobile']}
+    log    ${resp_content}
+    [Return]    ${resp}    ${success}    ${resp_content}

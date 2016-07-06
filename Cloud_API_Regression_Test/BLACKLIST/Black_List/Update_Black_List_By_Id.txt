@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/black_list_api_resource.txt
+
+*** Test Cases ***
+Update Black List By Id
+    [Tags]    update
+    [Template]    Update_Black_List_By_Id_Temp
+    TestData01: 成功更新信息    ${EMPTY}    0668A6EC47D9485080FBBD6F74B331FD    zhao yang    1
+    TestData02: 成功不存在的信息    ${EMPTY}    0668A6EC47D9485080FBBD6F74B331FD11    yang yang    0
+
+*** Keywords ***
+Update_Black_List_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${value}    ${success}
+    log    ${testdata_info}
+    ${resp}=    update blacklist by id     ${cookie}    ${id}    ${value}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

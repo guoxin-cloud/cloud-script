@@ -1,0 +1,2 @@
+*** Settings ***
+Resource          ../../RESOURCE/black_list_api_resource.txt

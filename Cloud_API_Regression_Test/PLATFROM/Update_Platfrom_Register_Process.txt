@@ -1,0 +1,21 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Update Platfrom Register Process
+    [Tags]    platform7
+    [Template]    Update_Platfrom_Register_Process_Temp
+    TestData01: 成功更新信息    ${EMPTY}    1000    技术部测试    北京    222    8
+    ...    1    1
+    TestData02: 成功不存在的信息    ${EMPTY}    1000    技术部测试    北京    222    8
+    ...    0    100
+
+*** Keywords ***
+Update_Platfrom_Register_Process_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${platformId}    ${agreeInfo}    ${area}    ${customerId}
+    ...    ${requestType}    ${success}    ${id}
+    ${request}=    Create Dictionary    agreeInfo    ${agreeInfo}    area    ${area}
+    log    ${testdata_info}
+    ${resp}=    update platfrom resgister process    ${cookie}    ${platformId}    ${request}    ${customerId}    ${requestType}
+    ...    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/high_risk_api_resource.txt
+
+*** Test Cases ***
+Update High Risk
+    [Tags]    zy
+    [Template]    update_high_risk_temp
+    TestData01: 更新正确的信息    ${EMPTY}    yang yang    1    443BEED3291F493AB0454595040127F5
+    TestData02: 更新不存在的信息    ${EMPTY}    yang yang    0    443BEED3291F493AB045459504012700
+    TestData03: 更新为超长的信息    ${EMPTY}    测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试    False    443BEED3291F493AB0454595040127F5
+
+*** Keywords ***
+Update_High_Risk_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${value}    ${success}    ${id}
+    Log    ${testdata_info}
+    ${resp}=    update high risk    ${cookie}    ${value}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Add Platfrom
+    [Tags]    platform1
+    [Template]    Add_Platfrom_Temp
+    TestData01: 成功添加信息    ${EMPTY}    大宗交易所大宗交    1    1    1    1
+    ...    1
+    TestData02: 添加超长信息    ${EMPTY}    大宗大宗交易所大宗大宗大宗交易所大宗大宗交易所大宗交大宗交交大宗交大宗大宗交易所大宗交大宗交交易所大宗大宗大宗交易所大宗大宗交易所大宗交大宗交交大宗交大宗大宗交易所大宗交大宗交交大宗交交大宗交大宗大宗交易所大宗交大宗交    1    1    1    1
+    ...    0
+
+*** Keywords ***
+Add_Platfrom_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${exchange}    ${exchangeKey}    ${name}    ${status}
+    ...    ${type}    ${success}
+    log    ${testdata_info}
+    ${resp}=    add platfrom    ${cookie}    ${exchange}    ${exchangeKey}    ${name}    ${status}
+    ...    ${type}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

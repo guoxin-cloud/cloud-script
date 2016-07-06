@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/black_list_api_resource.txt
+
+*** Test Cases ***
+Fetch Black List By Id
+    [Tags]    id
+    [Template]    Fetch_Black_List_By_Id_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    1364C086D5854E8FA8F66274B773CCB4    1    1364C086D5854E8FA8F66274B773CCB4
+    TestData02: 获取不存在的信息    ${EMPTY}    111364C086D5854E8FA8F66274B773CCB4    0    ${EMPTY}
+
+*** Keywords ***
+Fetch_Black_List_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}    ${id1}
+    log    ${testdata_info}
+    ${resp}=    fetch blacklist by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    Run Keyword if    "${success}"==1    Should Be Equal As Strings    ${resp[2]}    ${id1}

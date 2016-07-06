@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Delete Platfrom
+    [Tags]    platform3
+    [Template]    Delete_Platfrom_Temp
+    TestData01: 成功删除信息    ${EMPTY}    2    1
+    TestData01: 删除不存在的信息    ${EMPTY}    9999    0
+
+*** Keywords ***
+Delete_Platfrom_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${platformId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    delete platfrom    ${platformId}    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

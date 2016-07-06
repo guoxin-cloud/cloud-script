@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/close_reason_api_resource.txt
+
+*** Test Cases ***
+Fetch Close Reason
+    [Tags]    close4
+    [Template]    Fetch_Close_Reason_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    27    27    1
+    TestData02: 获取不存在的信息    ${EMPTY}    1    ${EMPTY}    0
+
+*** Keywords ***
+Fetch_Close_Reason_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${resp_id}    ${success}
+    ${resp}=    fetch close reason    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    Run Keyword If    ${success}==1    Should Be Equal As Strings    ${resp[2]}    ${id}
