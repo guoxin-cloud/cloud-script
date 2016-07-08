@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/black_list_api_resource.txt
+
+*** Test Cases ***
+Delete Black List By Id
+    [Tags]    delete
+    [Template]    Delete_Black_List_By_Id_Temp
+    TestData01: 删除存在的信息    ${EMPTY}    1
+
+*** Keywords ***
+Delete_Black_List_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    log    ${testdata_info}
+    ${resp}=    delete blacklist by id    ${cookie}
+    Run Keyword If    "${resp[2]}"=="None"    Should Be Equal As Strings    ${resp[1]}    0
+    Run Keyword If    "${resp[2]}"!="None"    Should Be Equal As Strings    ${resp[1]}    ${success}

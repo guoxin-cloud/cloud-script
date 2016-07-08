@@ -1,0 +1,71 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add blacklist
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${ADD_BLACKLIST_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    [Return]    ${resp}    ${success}
+
+update blacklist by id
+    [Arguments]    ${cookie}    ${id}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${UPDATE_BLACKLIST_URL}    ${cookie}    id    ${id}
+    ...    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    Connect To DB    ${DBTEPY}    ${DBNAME}    ${DBUSERNAME}    ${DBPASSWORD}    ${DBHOST}    ${DBPORT}
+    ${queryReasults}=    query    select * from black_list_user where id='03BC0831E5F8447887E288CFBD09F1E2'
+    ${status}    ${query_value}=    Run Keyword And Ignore Error    Set Variable    ${queryReasults[0][1]}
+    log    ${queryReasults}
+    log    ${query_value}
+    [Return]    ${resp}    ${success}    ${query_value}
+
+fetch blacklist by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_ID_URL}    ${cookie}    id    ${id}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    ${status1}    ${resp_id}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['id']}
+    [Return]    ${resp}    ${success}    ${resp_id}
+
+fetch blacklist by value
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_VALUE_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    ${status1}    ${resp_value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}    ${resp_value}
+
+fetch blacklist by page
+    [Arguments]    ${cookie}    ${currentPage}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${FETCH_BLACKLIST_BY_PAGE_URL}    ${cookie}    currentPage    ${currentPage}
+    ...    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${resp_resultList}    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['resultList']}
+    ${resp_result}=    Convert To List    ${resp_resultList}
+    log    ${resp_result}
+    [Return]    ${resp}    ${success}    ${resp_resultList}
+
+delete blacklist by id
+    [Arguments]    ${cookie}
+    Connect To DB    ${DBTEPY}    ${DBNAME}    ${DBUSERNAME}    ${DBPASSWORD}    ${DBHOST}    ${DBPORT}
+    ${resp_sql}=    query    select * from black_list_user limit 1
+    ${resp_sql_count}=    query    select count(*) from black_list_user
+    ${status}    ${resp_count}=    Run Keyword And Ignore Error    Set Variable    ${resp_sql_count[0][0]}
+    log    ${resp_count}
+    ${status}    ${id}=    Run Keyword If    "${resp_count}"!="0"    Run Keyword And Ignore Error    Set Variable    ${resp_sql[0][0]}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${DELETE_BLACKLIST_BY_ID_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    log    ${id}
+    log    ${resp_sql}
+    [Return]    ${resp}    ${success}    ${id}
+
+delete blacklist by value
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${BLACKLIST_PORT}    ${DELETE_BLACKLIST_BY_VALUE_URL}    ${cookie}    value    ${value}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    log    ${success}
+    [Return]    ${resp}    ${success}

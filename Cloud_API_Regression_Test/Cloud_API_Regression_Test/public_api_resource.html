@@ -1,0 +1,1062 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+html {
+  font-family: Arial,Helvetica,sans-serif;
+  background-color: white;
+  color: black;
+}
+table {
+  border-collapse: collapse;
+  empty-cells: show;
+  margin: 1em 0em;
+  border: 1px solid black;
+}
+th, td {
+  border: 1px solid black;
+  padding: 0.1em 0.2em;
+  height: 1.5em;
+  width: 12em;
+}
+td.colspan4, th.colspan4 {
+    width: 48em;
+}
+td.colspan3, th.colspan3 {
+    width: 36em;
+}
+td.colspan2, th.colspan2 {
+    width: 24em;
+}
+th {
+  background-color: rgb(192, 192, 192);
+  color: black;
+  height: 1.7em;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+td.name {
+  background-color: rgb(240, 240, 240);
+  letter-spacing: 0.1em;
+}
+td.name, th.name {
+  width: 10em;
+}
+</style>
+<title>Public Api Resource</title>
+</head>
+<body>
+<h1>Public Api Resource</h1>
+<table border="1" id="setting">
+<tr>
+<th class="name" colspan="5">Settings</th>
+</tr>
+<tr>
+<td class="name">Documentation</td>
+<td class="colspan4" colspan="4">公共基础关键字</td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>Collections</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>RequestsLibrary</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>json</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Resource</td>
+<td>common_resource.txt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>String</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>DatabaseLibrary</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table border="1" id="keyword">
+<tr>
+<th class="name" colspan="5">Keywords</th>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Post Request with Dict and Token">Post Request with Dict and Token</a></td>
+<td>[Arguments]</td>
+<td>${root}</td>
+<td>${uri}</td>
+<td>${token}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>@{form_data}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Create Session</td>
+<td>demo</td>
+<td>${root}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${data}=</td>
+<td>Create Dictionary</td>
+<td>@{form_data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_data}=</td>
+<td>json.dumps</td>
+<td>${data}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${headers}=</td>
+<td>Create Dictionary</td>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>User-Agent</td>
+<td>iOS/8.400000;iPhone 6 (A1549/A1586);beast/2.2.0.4711</td>
+<td>Authorization</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${token}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_headers}=</td>
+<td>json.dumps</td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${resp}=</td>
+<td>Post Request</td>
+<td>demo</td>
+<td>${uri}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${data}</td>
+<td></td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${resp}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_MakeCID">MakeCID</a></td>
+<td>${yyyy}</td>
+<td>${mm}</td>
+<td>${dd}</td>
+<td>${hh}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${min}</td>
+<td>${ss}=</td>
+<td>Get Time</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>year,month,day,hour, min, sec</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${cid}=</td>
+<td>Set Variable</td>
+<td>${yyyy}${mm}${dd}${hh}${min}${ss}00000</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${cid}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_MakeID">MakeID</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">生成10位ID值</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${yyyy}</td>
+<td>${mm}</td>
+<td>${dd}</td>
+<td>${hh}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${min}</td>
+<td>${ss}=</td>
+<td>Get Time</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>year,month,day,hour, min, sec</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${id}=</td>
+<td>Set Variable</td>
+<td>${yyyy}${mm}${dd}${hh}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Currency Format">Currency Format</a></td>
+<td>[Arguments]</td>
+<td>${value}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">货币格式转换</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${locale}=</td>
+<td>Evaluate</td>
+<td>locale.setlocale( locale.LC_ALL, '' )</td>
+<td>locale</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${format_value}=</td>
+<td>Evaluate</td>
+<td>locale.currency(${value}, grouping=True)</td>
+<td>locale</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${ignore_first}=</td>
+<td>Get Substring</td>
+<td>${format_value}</td>
+<td>1</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${ignore_first}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_List Should Contain Value Contain">List Should Contain Value Contain</a></td>
+<td>[Arguments]</td>
+<td>${str}</td>
+<td>${val}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${status}=</td>
+<td>Set Variable</td>
+<td>FAIL</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${item}</td>
+<td>IN</td>
+<td>@{str}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${item}=</td>
+<td>Evaluate</td>
+<td>"${item}".decode('utf8')</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${status}</td>
+<td>${value}=</td>
+<td>Run Keyword and Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Should Contain</td>
+<td>${item}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${val}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${status}' == 'PASS'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Be Equal</td>
+<td>${status}</td>
+<td>PASS</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${status}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Post Request with Dict">Post Request with Dict</a></td>
+<td>[Arguments]</td>
+<td>${root}</td>
+<td>${uri}</td>
+<td>@{form_data}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Create Session</td>
+<td>demo</td>
+<td>${root}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${data}=</td>
+<td>Create Dictionary</td>
+<td>@{form_data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${json_data}=</td>
+<td>json.dumps</td>
+<td>${data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${headers}=</td>
+<td>Create Dictionary</td>
+<td>Content-Type</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>User-Agent</td>
+<td>iOS/8.400000;iPhone 6 (A1549/A1586);beast/2.2.0.4711</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_headers}=</td>
+<td>json.dumps</td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${resp}=</td>
+<td>Post Request</td>
+<td>demo</td>
+<td>${uri}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${json_data}</td>
+<td></td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${resp}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Generate Email">Generate Email</a></td>
+<td>${yyyy}</td>
+<td>${mm}</td>
+<td>${dd}</td>
+<td>${hh}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${min}</td>
+<td>${ss}=</td>
+<td>Get Time</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>year,month,day,hour, min, sec</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${email}=</td>
+<td>Set Variable</td>
+<td>apitest${yyyy}${mm}${dd}${hh}${min}${ss}@speedx.com</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${email}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Post Request with Dict and Cookie">Post Request with Dict and Cookie</a></td>
+<td>[Arguments]</td>
+<td>${root}</td>
+<td>${uri}</td>
+<td>${session}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>@{form_data}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Create Session</td>
+<td>demo</td>
+<td>${root}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${data}=</td>
+<td>Create Dictionary</td>
+<td>@{form_data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_data}=</td>
+<td>json.dumps</td>
+<td>${data}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${headers}=</td>
+<td>Create Dictionary</td>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>User-Agent</td>
+<td>${USER_AGENT}</td>
+<td>Cookie</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${session}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_headers}=</td>
+<td>json.dumps</td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${resp}=</td>
+<td>Post Request</td>
+<td>demo</td>
+<td>${uri}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${data}</td>
+<td></td>
+<td>${headers}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${resp}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get List From Api">Get List From Api</a></td>
+<td>[Arguments]</td>
+<td>${resp}</td>
+<td>${element_name}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${alist}</td>
+<td>Create List</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${len}=</td>
+<td>Get Length</td>
+<td>${resp[3]}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${INDEX}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${len}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${el}=</td>
+<td>Convert To String</td>
+<td>${resp[3][${INDEX}]['${element_name}']}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Append To List</td>
+<td>${alist}</td>
+<td>${el}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${alist}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get List From DB">Get List From DB</a></td>
+<td>[Arguments]</td>
+<td>${query_result}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${alist}</td>
+<td>Create List</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${el}</td>
+<td>IN</td>
+<td>@{query_result}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Append To List</td>
+<td>${alist}</td>
+<td>${el[0]}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${alist}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Compare DB with API">Compare DB with API</a></td>
+<td>[Arguments]</td>
+<td>${count}</td>
+<td>${resp}</td>
+<td>${element_name}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${sql}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list_api}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>Get List From Api</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${count}</td>
+<td>${resp}</td>
+<td>${element_name}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${query_result}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>QueryViaSSH</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${sql}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list_db}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>Get List From DB</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${query_result}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>Lists Should Be Equal</td>
+<td>${list_api}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${list_db}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Compare DB with API Contains">Compare DB with API Contains</a></td>
+<td>[Arguments]</td>
+<td>${resp}</td>
+<td>${element_name}</td>
+<td>${sql}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list_api}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>Get List From Api</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${resp}</td>
+<td>${element_name}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${query_result}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>QueryViaSSH</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${sql}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list_db}=</td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>Get List From DB</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${query_result}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${username}'!='NOLOGIN'</td>
+<td>List Should Contain Sub List</td>
+<td>${list_db}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${list_api}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Request with Cookie">Get Request with Cookie</a></td>
+<td>[Arguments]</td>
+<td>${root}</td>
+<td>${uri}</td>
+<td>${cookies}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>@{form_data}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Create Session</td>
+<td>demo</td>
+<td>${root}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${data}=</td>
+<td>Create Dictionary</td>
+<td>@{form_data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${json_data}=</td>
+<td>json.dumps</td>
+<td>${data}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${headers}=</td>
+<td>Create Dictionary</td>
+<td>Content-Type</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>Cookie</td>
+<td>${cookies}</td>
+<td>User-Agent</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${USER_AGENT}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${resp}=</td>
+<td>Get Request</td>
+<td>demo</td>
+<td>${uri}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${headers}</td>
+<td>${data}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${resp}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Del Request with Cookie">Del Request with Cookie</a></td>
+<td>[Arguments]</td>
+<td>${root}</td>
+<td>${uri}</td>
+<td>${cookies}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Create Session</td>
+<td>demo</td>
+<td>${root}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${headers}=</td>
+<td>Create Dictionary</td>
+<td>Content-Type</td>
+<td>application/json</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>Cookie</td>
+<td>${cookies}</td>
+<td>User-Agent</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${USER_AGENT}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${resp}=</td>
+<td>Delete Request</td>
+<td>demo</td>
+<td>${uri}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${headers}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${resp}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Connect To DB">Connect To DB</a></td>
+<td>[Arguments]</td>
+<td>${DBTEPY}</td>
+<td>${DBNAME}</td>
+<td>${DBUSERNAME}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${DBPASSWORD}</td>
+<td>${DBHOST}</td>
+<td>${DBPORT}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">A basic Keyword for DB connection</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Connect To Database</td>
+<td>${DBTEPY}</td>
+<td>${DBNAME} </td>
+<td>${DBUSERNAME}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${DBPASSWORD}</td>
+<td>${DBHOST}</td>
+<td>${DBPORT}</td>
+</tr>
+</table>
+</body>
+</html>

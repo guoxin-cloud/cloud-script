@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/black_list_api_resource.txt
+
+*** Test Cases ***
+Fetch Black List By Value
+    [Tags]    value
+    [Template]    Fetch_Black_List_By_Value_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    192.168.99.104    1    true
+    TestData02: 获取不存在的信息    ${EMPTY}    不存在    1    false
+
+*** Keywords ***
+Fetch_Black_List_By_Value_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${value}    ${success}    ${resp_value}
+    log    ${testdata_info}
+    ${resp}=    fetch blacklist by value    ${cookie}    ${value}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    Should Be Equal As Strings    ${resp[2]}    ${resp_value}

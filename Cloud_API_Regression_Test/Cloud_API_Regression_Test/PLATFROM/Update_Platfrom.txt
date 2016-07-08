@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Update Platfrom
+    [Tags]    platform2
+    [Template]    Update_Platfrom_Temp
+    TestData01: 成功更新信息    ${EMPTY}    津贵所test津贵所    tjpme_test    1    津贵所    0
+    ...    1    1    1
+    TestData01: 更新不存在的信息    ${EMPTY}    津贵所test津贵所    tjpme_test    1    津贵所    0
+    ...    1    0    100
+
+*** Keywords ***
+Update_Platfrom_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${exchange}    ${exchangeKey}    ${isDeleted}    ${name}
+    ...    ${status}    ${type}    ${platformId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    update platfrom    ${cookie}     ${exchange}    ${exchangeKey}    ${isDeleted}    ${name}
+    ...    ${status}    ${type}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,103 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add platfrom
+    [Arguments]    ${cookie}    ${exchange}    ${exchangeKey}    ${name}    ${status}    ${type}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${ADD_PLATFORM_URL}    ${cookie}    exchange    ${exchange}
+    ...    exchangeKey    ${exchangeKey}    name    ${name}    status    ${status}
+    ...    type    ${type}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update platfrom
+    [Arguments]    ${cookie}    ${exchange}    ${exchangeKey}    ${isDeleted}    ${name}    ${status}
+    ...    ${type}    ${platformId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${UPDATE_PLATFORM_URL}/${platformId}    ${cookie}    exchange    ${exchange}
+    ...    exchangeKey    ${exchangeKey}    isDeleted    ${isDeleted}    name    ${name}
+    ...    status    ${status}    type    ${type}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete platfrom
+    [Arguments]    ${platformId}    ${cookie}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${DELETE_PLATFORM_URL}/${platformId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+add platfrom register process
+    [Arguments]    ${cookie}    ${customerId}    ${platformId}    ${requestTime}    ${requestType}    ${request}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${ADD_PLATFROM_RESGISTER_URL}    ${cookie}    customerId    ${customerId}
+    ...    platformId    ${platformId}    requestTime    ${requestTime}    requestType    ${requestType}
+    ...    request    ${request}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update platfrom resgister process
+    [Arguments]    ${cookie}    ${platformId}    ${request}    ${customerId}    ${requestType}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${UPDATE_PALTFORM_REGISTER_URL}/${id}    ${cookie}    platformId    ${platformId}
+    ...    request    ${request}    customerId    ${customerId}    requestType    ${requestType}
+    ${status}    ${success}    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+add sim_account
+    [Arguments]    ${cookie}    ${accountNumber}    ${createTime}    ${customerId}    ${distributeTime}    ${idNumber}
+    ...    ${isDeleted}    ${isDistributed}    ${platformId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${ADD_SIM_ACCOUNT_URL}    ${cookie}    accountNumber    ${accountNumber}
+    ...    createTime    ${createTime}    customerId    ${customerId}    distributeTime    ${distributeTime}
+    ...    idNumber    ${idNumber}    isDeleted    ${isDeleted}    isDistributed    ${isDistributed}
+    ...    platformId    ${platformId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update sim_account
+    [Arguments]    ${cookie}    ${accountNumber}    ${createTime}    ${customerId}    ${distributeTime}    ${idNumber}
+    ...    ${isDeleted}    ${isDistributed}    ${platformId}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${UPDATE_SIM_ACCOUNT_URL}/${id}    ${cookie}    accountNumber    ${accountNumber}
+    ...    createTime    ${createTime}    customerId    ${customerId}    distributeTime    ${distributeTime}
+    ...    idNumber    ${idNumber}    isDeleted    ${isDeleted}    isDistributed    ${isDistributed}
+    ...    platformId    ${platformId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete sim_account
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${DELETE_SIM_ACCOUNT_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch platfrom by id
+    [Arguments]    ${platformId}    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${platformId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch platfrom by list
+    [Arguments]    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}$:{PLATFROM_PORT}    ${FETCH_PLATFORM_BY_LIST_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch platfrom register process by id
+    [Arguments]    ${testdata_info}    ${id}    ${cookie}    ${success}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${FETCH_PLATFORM_REGISTER_PROCESS_BY_ID_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch platfrom register process by list
+
+fetch sim_account by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${FETCH_SIM_ACCOUNT_BY_ID_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch sim_account by list
+    [Arguments]    ${cookie}    ${currentPage}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${PLATFROM_PORT}    ${FETCH_SIM_ACCOUNT_BY_ID_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+get-survey
+
+open account

@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../RESOURCE/room_bulletin_api_rescource.txt
+
+*** Test Cases ***
+Update Room Bulletin
+    [Tags]    room5
+    [Template]    Update_Room_Bulletin_Temp
+    TestData01: 成功更新信息    ${EMPTY}    1    测试    2    1938    true
+    ...    1
+    TestData02: 更新不存在的信息    ${EMPTY}    40    测试    2    1938    true
+    ...    0
+
+*** Keywords ***
+Update_Room_Bulletin_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${content}    ${creatorId}    ${roomId}
+    ...    ${isAdmin}    ${success}
+    ${resp}=    update room bulletin    ${cookie}    ${id}    ${content}    ${creatorId}    ${roomId}
+    ...    ${isAdmin}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

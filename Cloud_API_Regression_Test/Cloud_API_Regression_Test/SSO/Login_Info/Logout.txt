@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso_login_info_api_resource.txt
+
+*** Test Cases ***
+Logout
+    [Tags]    log
+    [Template]    Logout_Temp
+    TestData01: 正确的信息登出    ${EMPTY}    18300010001    123456    192.168.99.104    5    1
+    ...    ${EMPTY}
+
+*** Keywords ***
+Logout_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${password}    ${ip}    ${expiredDays}
+    ...    ${success}    ${cookie1}
+    Log    ${testdata_info}
+    ${resp_login}=    login    ${cookie}    ${account}    ${password}    ${ip}    ${expiredDays}
+    ${status}    ${token}=    Run Keyword And Ignore Error    Set Variable    ${resp_login[2]}
+    ${resp}=    login out    ${cookie1}    ${token}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

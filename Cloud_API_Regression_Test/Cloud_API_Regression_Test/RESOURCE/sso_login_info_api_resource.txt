@@ -1,0 +1,21 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+login
+    [Arguments]    ${cookie}    ${account}    ${password}    ${ip}    ${expiredDays}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${LOGIN_PORT}    ${LOGIN_URL}    ${cookie}    account    ${account}
+    ...    password    ${password}    ip    ${ip}    expiredDays    ${expiredDays}
+    ${resp_convert}=    Convert To String    200
+    Should Be Equal As Strings    ${resp[0]}    ${resp_convert}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${token}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['token']}
+    log    ${token}
+    log    ${success}
+    [Return]    ${resp}    ${success}    ${token}
+
+login out
+    [Arguments]    ${cookie}    ${token}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${LOGIN_PORT}    ${LOGOUT_URL}    ${cookie}    token    ${token}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}

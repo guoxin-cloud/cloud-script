@@ -1,0 +1,15 @@
+*** Settings ***
+Resource          ../RESOURCE/sms_api_resource.txt
+
+*** Test Cases ***
+Send Sms
+    [Tags]    sms2
+    [Template]    Send_Sms_Temp
+    TestData01: 成功发送短信    ${EMPTY}    15311446193    测试    1    1
+
+*** Keywords ***
+Send_Sms_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${mobile}    ${message}    ${biz}    ${success}
+    log    ${testdata_info}
+    ${resp}=    send sms    ${cookie}    ${mobile}    ${message}    ${biz}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

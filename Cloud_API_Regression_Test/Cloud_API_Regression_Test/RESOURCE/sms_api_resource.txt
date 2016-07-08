@@ -1,0 +1,26 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+fetch balance
+    [Arguments]    ${cookie}    ${channel}    ${biz}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${SMS_PORT}    ${FETCH_SMS_BALANCE_URL}    ${cookie}    channel    ${channel}
+    ...    biz    ${biz}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+send sms
+    [Arguments]    ${cookie}    ${mobile}    ${msg}    ${biz}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${SMS_PORT}    ${SEND_SMS_URL}    ${cookie}    mobile    ${mobile}
+    ...    msg    ${msg}    biz    ${biz}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+fetch send_status
+    [Arguments]    ${cookie}    ${mobile}    ${message}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${SMS_PORT}    ${FETCH_SEND_STATUS_URL}    ${cookie}    mobile    ${mobile}
+    ...    message    ${message}
+    ${status0}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${resp_result}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['resultList']['mobile']}
+    log    ${resp_result}
+    [Return]    ${resp}    ${success}    ${resp_result}

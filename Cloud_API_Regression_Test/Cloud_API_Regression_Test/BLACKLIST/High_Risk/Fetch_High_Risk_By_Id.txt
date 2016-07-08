@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/high_risk_api_resource.txt
+
+*** Test Cases ***
+Fetch High Risk By Id
+    [Tags]    get
+    [Template]    Fetch_High_Risk_By_Id_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    0309F0F8DE664C179F91074800549BD0    1
+    TestData01: 获取存在的信息    ${EMPTY}    0309F0F8DE664C179F91074800549BD03333    0
+
+*** Keywords ***
+Fetch_High_Risk_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch high risk by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

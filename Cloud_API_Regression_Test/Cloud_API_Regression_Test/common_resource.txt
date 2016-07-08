@@ -2,11 +2,7 @@
 Documentation     全局变量
 
 *** Variables ***
-<<<<<<< HEAD
 ${API_ROOT_URL}    http://123.56.251.59    #测试环境服务器IP123.56.251.59
-=======
-${API_ROOT_URL}    http://192.168.100.140    #测试环境服务器IP
->>>>>>> d2a9d51e9fb2e2b4aed7cf35d93188a12c46f2ae
 ${SERVICE_PORT}    10080    #服务端口
 ${API_VERSION}    v1    # API版本号
 ${APP_VERSION}    1.0    # 客户端版本
@@ -64,12 +60,9 @@ ${DELETE_SALARIES_BY_EMPLOYEEID_URL}    /salaries/del-employeeId    # 根据员�
 ${UPDATE_SALARIES_URL}    /salaries/update    # 更新薪资信息url
 ${FETCH_PLATFORM_REGISTER_PROCESS_BY_ID_URL}    /register    # 通过id获取注册信息url
 ${FETCH_SIM_ACCOUNT_BY_ID_URL}    /sim-account    # 根据id获取模拟账号信息url
-<<<<<<< HEAD
 ${DBTEPY}         MySQLdb    # 数据库类型
 ${DBNAME}         blacklist    # 数据库名字
 ${DBUSERNAME}     root    # 数据库用户名
 ${DBPASSWORD}     123456    # 数据库密码
 ${DBHOST}         101.200.184.125    # 数据库ip
 ${DBPORT}         3306    # 数据库端口
-=======
->>>>>>> d2a9d51e9fb2e2b4aed7cf35d93188a12c46f2ae

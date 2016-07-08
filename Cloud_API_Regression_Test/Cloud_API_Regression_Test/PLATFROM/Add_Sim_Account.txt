@@ -1,0 +1,18 @@
+*** Settings ***
+Resource          ../RESOURCE/platfrom_api_reasource.txt
+
+*** Test Cases ***
+Add Sim_Account
+    [Tags]    platform9
+    [Template]    Add_Sim_Account_Temp
+    TestData01: 成功添加信息    ${EMPTY}    1553423423    2016-06-14 14:39:23    D9561E1C45AE45E5A1B1BB9D03A7D916    2016-06-14 14:39:23    211022198607132021
+    ...    10    17    1000    1
+
+*** Keywords ***
+Add_Sim_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${accountNumber}    ${createTime}    ${customerId}    ${distributeTime}
+    ...    ${idNumber}    ${isDeleted}    ${isDistributed}    ${platformId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    add sim_account    ${cookie}    ${accountNumber}    ${createTime}    ${customerId}    ${distributeTime}
+    ...    ${idNumber}    ${isDeleted}    ${isDistributed}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

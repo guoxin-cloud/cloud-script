@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/salaries_info_api_resource.txt
+
+*** Test Cases ***
+Delete Salaries By Salariesid
+    [Tags]    employ4
+    [Template]    Delete_Salaries_By_Salariesid_Temp
+    TestData01: 删除存在的信息    ${EMPTY}    FDFB61FA5CA4400DB55E26F70893E806    1
+    TestData02: 删除不存在的信息    ${EMPTY}    1    0
+
+*** Keywords ***
+Delete_Salaries_By_Salariesid_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    log    ${testdata_info}
+    ${resp}=    delete salaries by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

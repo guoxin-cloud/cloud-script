@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../RESOURCE/salaries_info_api_resource.txt
+
+*** Test Cases ***
+Fetch Salaries By Employid
+    [Tags]    employ1
+    [Template]    Fetch_Salaries_By_Employid_Temp
+    TestData01: 获取存在的信息    ${EMPTY}    14B781F1367949A8B4113AE56CEA8271    1
+
+*** Keywords ***
+Fetch_Salaries_By_Employid_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${employeeId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    fetch salaries by employid    ${cookie}    ${employeeId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    log    ${resp[2]}
+    ${resp_valueList}    Convert To List    ${resp[2]}
+    log    ${resp[2]}
+    Run Keyword If    ${resp_valueList}!=[]    Should Contain    ${resp[2]}    ${employeeId}
