@@ -5,12 +5,13 @@ Resource          ../../RESOURCE/black_list_api_resource.txt
 Update Black List By Id
     [Tags]    update
     [Template]    Update_Black_List_By_Id_Temp
-    TestData01: 成功更新信息    ${EMPTY}    0668A6EC47D9485080FBBD6F74B331FD    zhao yang    1
-    TestData02: 成功不存在的信息    ${EMPTY}    0668A6EC47D9485080FBBD6F74B331FD11    yang yang    0
+    TestData01: 成功更新信息    ${EMPTY}    03BC0831E5F8447887E288CFBD09F1E2    zhao yang    1    zhao yang
+    TestData02: 成功不存在的信息    ${EMPTY}    0668A6EC47D9485080FBBD6F74B331FD11    yang yang    0    ${EMPTY}
 
 *** Keywords ***
 Update_Black_List_By_Id_Temp
-    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${value}    ${success}
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${value}    ${success}    ${resp_sql}
     log    ${testdata_info}
-    ${resp}=    update blacklist by id     ${cookie}    ${id}    ${value}
+    ${resp}=    update blacklist by id    ${cookie}    ${id}    ${value}
     Should Be Equal As Strings    ${resp[1]}    ${success}
+    Run Keyword If    "${resp[1]}"=="1"    Should Be Equal As Strings    ${resp_sql}    ${resp[2]}
