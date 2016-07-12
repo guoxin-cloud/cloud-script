@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除角色信息
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Delete Role
+    [Tags]    yuqing    deleterole    role
+    [Template]    Delete_Role_Temp
+    Delete Role-01：全部正确的参数    ${EMPTY}    12    1
+    Delete Role-02：删除已不存在    ${EMPTY}    12    0
+
+*** Keywords ***
+Delete_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete role    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

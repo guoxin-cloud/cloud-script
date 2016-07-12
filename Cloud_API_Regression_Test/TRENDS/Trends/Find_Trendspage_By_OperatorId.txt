@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     查找用户记录（page）
+Resource          ../../RESOURCE/trends_trends_api_resource.txt
+
+*** Test Cases ***
+Find Trendspage By OperatorId
+    [Tags]    yuqing    findtrendspage    permit
+    [Template]    Find_Trendspage_By_OperatorId_Temp
+    Find Trendspage By OperatorId-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Find_Trendspage_By_OperatorId_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    find trendspage by operatorId    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

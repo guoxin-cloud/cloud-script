@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     获取用户的交易账号列表（by accountnumber）
+Resource          ../../RESOURCE/customer-platform_customeraccount_api_resource.txt
+
+*** Test Cases ***
+Get CustomerAccount By AccountNumber
+    [Tags]    yuqing    getaccountbyaccountnum    customeraccount
+    [Template]    Get_CustomerAccount_By_AccountNumber_Temp
+    Get CustomerAccount By AccountNumber-01：全部正确的参数    ${EMPTY}    155222222222222    1
+
+*** Keywords ***
+Get_CustomerAccount_By_AccountNumber_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${accountNumber}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customeraccount by accountnumber    ${accountNumber}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

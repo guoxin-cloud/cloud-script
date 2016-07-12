@@ -1,0 +1,67 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create permit
+    [Arguments]    ${cookie}    ${code}    ${name}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CREATE_PERMIT_URI}    ${cookie}    code    ${code}
+    ...    name    ${name}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update permit
+    [Arguments]    ${cookie}    ${id}    ${code}    ${name}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_UPDATE_PERMIT_URI}    ${cookie}    id    ${id}
+    ...    code    ${code}    name    ${name}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+fetch permit by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_FETCH_PERMIT_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_id}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['id']}
+    ${status4}    ${value_code}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['code']}
+    [Return]    ${resp}    ${success}    ${value_id}    ${value_code}    ${message}
+
+fetch permit list
+    [Arguments]    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_LIST_PERMIT_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete permit
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_DELETE_PERMIT_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+batch delete permit
+    [Arguments]    ${cookie}    ${ids}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_BATCH_DELETE_PERMIT_URI}    ${cookie}    ids    ${ids}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

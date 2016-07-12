@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     审核用户身份验证信息（需要先做更新用户身份验证信息，加入identity表中才能审核）
+Resource          ../../RESOURCE/customer_customeridentity_api_resource.txt
+
+*** Test Cases ***
+Check Customer Identity
+    [Tags]    yuqing    checkcustomeridentity    customeridentity
+    [Template]    Check_Customer_Identity_Temp
+    Check Customer Identity-01：全部正确的参数    D9561E1C45AE45E5A1B1BB9D03A7D916    ${EMPTY}    1    1    1
+    Check Customer Identity-02：审核不存在的customerId    1    ${EMPTY}    1    1    0
+    Check Customer Identity-03：审核人为空    1    ${EMPTY}    1    \    0
+
+*** Keywords ***
+Check_Customer_Identity_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${checkStatus}    ${checker}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    check customer identity    ${customerId}    ${cookie}    ${checkStatus}    ${checker}
+    should be equal as strings    ${resp[1]}    ${success}
+    Run Keyword If    ${success}==1    Should Contain    ${resp[2]}    ${checkStatus}

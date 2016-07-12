@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取单条播间规则（by id）
+Resource          ../../RESOURCE/vip_roomviprule_api_resource.txt
+
+*** Test Cases ***
+Fetch Room Vip Rule
+    [Tags]    yuqing    fetchroomviprule    roomtopic
+    [Template]    Fetch_Room_Vip_Rule_Temp
+    Fetch Room Vip Rule-01：全部正确的参数    ${EMPTY}    30    1
+    Fetch Room Vip Rule-02：查询不存在    ${EMPTY}    32    0
+
+*** Keywords ***
+Fetch_Room_Vip_Rule_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch room vip rule    ${cookie}    ${id}
+    should be equal as strings    ${resp[1]}    ${success}

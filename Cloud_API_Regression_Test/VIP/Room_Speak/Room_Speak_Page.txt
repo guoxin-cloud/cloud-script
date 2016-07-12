@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     获取播间发言的分页列表数据（page）
+Resource          ../../RESOURCE/vip_roomspeak_api_resource.txt
+
+*** Test Cases ***
+Room Speak Page
+    [Tags]    yuqing    roomspeakpage    roomspeak
+    [Template]    Room_Speak_Page_Temp
+    Room Speak Page-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Room_Speak_Page_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    room speak page    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}
+    ${resp_result}=    Convert To List    ${resp[3]}
+    Log    ${resp_result}
+    Run Keyword If    ${resp_result}!=[]    Should Contain    ${resp[3]}    ['value']['resultList']['content']

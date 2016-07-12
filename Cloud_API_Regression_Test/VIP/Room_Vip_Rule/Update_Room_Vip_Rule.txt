@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     更新单条播间规则
+Resource          ../../RESOURCE/vip_roomviprule_api_resource.txt
+
+*** Test Cases ***
+Update Room Vip Rule
+    [Tags]    yuqing    updateroomviprule    roomtopic
+    [Template]    Update_Room_Vip_Rule_Temp
+    Update Room Vip Rule-01：全部正确的参数    ${EMPTY}    1234    8888    30    1
+    Update Room Vip Rule-02：修改不存在    ${EMPTY}    1234    8888    32    0
+
+*** Keywords ***
+Update_Room_Vip_Rule_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${fundLower_new}    ${fundUpper_new}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update room vip rule    ${cookie}    ${fundLower_new}    ${fundUpper_new}    ${id}
+    should be equal as strings    ${resp[1]}    ${success}

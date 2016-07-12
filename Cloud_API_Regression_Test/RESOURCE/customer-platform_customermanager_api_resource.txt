@@ -1,0 +1,61 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add customer manager
+    [Arguments]    ${cookie}    ${customerId}    ${employeeId}    ${platformId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_ADD_CUSTOMER_MANAGER_URI}    ${cookie}    customerId    ${customerId}
+    ...    employeeId    ${employeeId}    platformId    ${platformId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update customer manager
+    [Arguments]    ${id}    ${cookie}    ${customerId}    ${employeeId}    ${platformId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_UPDATE_CUSTOMER_MANAGER_URI}/${id}    ${cookie}    customerId    ${customerId}
+    ...    employeeId    ${employeeId}    platformId    ${platformId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customermanager by customerid
+    [Arguments]    ${customerId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSMANAGER_BY_CUSTOMERID_URI}/${customerId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customermanager by employee
+    [Arguments]    ${employeeId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSMANAGER_BY_EMPLOYEE_URI}/${employeeId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customermanager by id
+    [Arguments]    ${id}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSMANAGER_BY_ID_URI}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+cancel customer manager
+    [Arguments]    ${id}    ${cookie}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_CANCEL_CUSTOMER_MANAGER_URI}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

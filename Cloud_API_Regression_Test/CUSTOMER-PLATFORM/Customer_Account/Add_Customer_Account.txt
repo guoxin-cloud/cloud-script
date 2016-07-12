@@ -1,0 +1,21 @@
+*** Settings ***
+Documentation     添加新用户交易账号明细资源
+Resource          ../../RESOURCE/customer-platform_customeraccount_api_resource.txt
+
+*** Test Cases ***
+Add Customer Account
+    [Tags]    yuqing    addcustomeraccount    customeraccount
+    [Template]    Add_Customer_Account_Temp
+    Add Customer Account-01：全部正确的参数    ${EMPTY}    14    美食汇    155111111111111    身份证    640425195501011519
+    ...    111    123456789012345678    1D17F11EC4604382AD41383A276C9395    1
+    Add Customer Account-02：增加已存在的账户    ${EMPTY}    14    美食汇    155111111111111    身份证    640425195501011519
+    ...    111    123456789012345678    1D17F11EC4604382AD41383A276C9395    0
+
+*** Keywords ***
+Add_Customer_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${accountId}    ${accountName}    ${accountNumber}    ${idType}
+    ...    ${idNumber}    ${bankId}    ${bankCardNumber}    ${customerId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    add customer account    ${cookie}    ${accountId}    ${accountName}    ${accountNumber}    ${idType}
+    ...    ${idNumber}    ${bankId}    ${bankCardNumber}    ${customerId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

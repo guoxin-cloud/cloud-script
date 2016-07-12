@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     增加用户-角色对应关系
+Resource          ../../RESOURCE/rbac_userrole_api_resource.txt
+
+*** Test Cases ***
+Create User Role
+    [Tags]    yuqing    createuserrole    userrole
+    [Template]    Create_User_Role_Temp
+    Create User Role-01：全部正确的参数    ${EMPTY}    D666E71444D445E1877B08CD14D886EB    20    1
+    Create User Role-02：新建重复的用户角色关系    ${EMPTY}    D666E71444D445E1877B08CD14D886EB    20    0
+
+*** Keywords ***
+Create_User_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userId}    ${roleid}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create user role    ${cookie}    ${userId}    ${roleid}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

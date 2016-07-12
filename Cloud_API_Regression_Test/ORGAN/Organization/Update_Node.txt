@@ -1,0 +1,18 @@
+*** Settings ***
+Documentation     更新组织结构
+Resource          ../../RESOURCE/organ_organization_api_resource.txt
+
+*** Test Cases ***
+Update Node
+    [Tags]    yuqing    updatenode    organ
+    [Template]    Update_Node_Temp
+    Update Node-01：全部正确的参数    ${EMPTY}    2E0EAC3457C6438E88FED3D04F1F2E07    B00030    新测试一    1
+    Update Node-02：修改不存在部门    ${EMPTY}    178E5A222B5C4D45B37A189744F7AFD1    B00030    新测试一    0
+
+*** Keywords ***
+Update_Node_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${parentId}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update node    ${cookie}    ${id}    ${parentId}    ${name}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    Run Keyword If    ${success}==1    Should Be Equal As Strings    ${resp[2]}    ${parentId}

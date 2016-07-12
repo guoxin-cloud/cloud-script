@@ -1,0 +1,24 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create role permit
+    [Arguments]    ${cookie}    ${permitId}    ${roleId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CREATE_ROLE_PERMIT_URI}    ${cookie}    permitId    ${permitId}
+    ...    roleId    ${roleId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete role permit
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_DELETE_ROLE_PERMIT_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

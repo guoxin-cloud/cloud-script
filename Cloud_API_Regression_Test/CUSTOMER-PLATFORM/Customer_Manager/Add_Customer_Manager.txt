@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     添加新用户客户经理
+Resource          ../../RESOURCE/customer-platform_customermanager_api_resource.txt
+
+*** Test Cases ***
+Add Customer Manager
+    [Tags]    yuqing    addcustmanager    customermanager
+    [Template]    Add_Customer_Manager_Temp
+    Add Customer Manager-01：全部正确的参数    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C9    4E61E62D033F418AB08479AA4DD16C50    1    1
+    Add Customer Manager-02：添加不存在customerId    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C8    4E61E62D033F418AB08479AA4DD16C50    1    0
+    Add Customer Manager-03：添加不存在employeeId    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C9    4E61E62D033F418AB08479AA4DD16C51    1    0
+    Add Customer Manager-04：添加不存在platformId    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C9    4E61E62D033F418AB08479AA4DD16C50    100    0
+
+*** Keywords ***
+Add_Customer_Manager_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${customerId}    ${employeeId}    ${platformId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    add customer manager    ${cookie}    ${customerId}    ${employeeId}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

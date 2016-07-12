@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除角色-权限对应关系
+Resource          ../../RESOURCE/rbac_rolepermit_api_resource.txt
+
+*** Test Cases ***
+Delete Role Permit
+    [Tags]    yuqing    rolepermit    deleterolepermit
+    [Template]    Delete_Role_Permit_Temp
+    Delete Role Permit-01：全部正确的参数    ${EMPTY}    20    1
+    Delete Role Permit-02：删除不存在    ${EMPTY}    21    0
+
+*** Keywords ***
+Delete_Role_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete role permit    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

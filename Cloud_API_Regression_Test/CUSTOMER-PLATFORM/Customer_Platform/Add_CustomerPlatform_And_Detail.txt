@@ -1,0 +1,21 @@
+*** Settings ***
+Documentation     添加新用户交易账号资源和明细
+Resource          ../../RESOURCE/customer-platform_customerplatform_api_resource.txt
+
+*** Test Cases ***
+Add CustomerPlatform And Detail
+    [Tags]    yuqing    add customerplatformdetail    customerplatform
+    [Template]    Add_CustomerPlatform_And_Detail_Temp
+    Add CustomerPlatform And Detail-01：全部正确的参数    1D17F11EC4604382AD41383A276C9395    ${EMPTY}    成功    155333333333000    身份证    640425195501011519
+    ...    012    123456789012345678    35    1
+    Add CustomerPlatform And Detail-02：增加已存在的账户    1D17F11EC4604382AD41383A276C9395    ${EMPTY}    成功    155333333333000    身份证    640425195501011519
+    ...    012    123456789012345678    35    0
+
+*** Keywords ***
+Add_CustomerPlatform_And_Detail_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${accountName}    ${accountNumber}    ${idType}
+    ...    ${idNumber}    ${bankId}    ${bankCardNumber}    ${platformId}    ${success}
+    log    ${testdata_info}
+    ${resp}=    add customerplatform and detail    ${customerId}    ${cookie}    ${accountName}    ${accountNumber}    ${idType}
+    ...    ${idNumber}    ${bankId}    ${bankCardNumber}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

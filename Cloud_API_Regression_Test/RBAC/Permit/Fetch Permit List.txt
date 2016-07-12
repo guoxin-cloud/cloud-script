@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     权限项分页查询（page）
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Fetch Permit List
+    [Tags]    yuqing    listpermit    permit
+    [Template]    Fetch_Permit_List_Temp
+    Fetch Permit List-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Fetch_Permit_List_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch permit list    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

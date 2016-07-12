@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取用户的交易账号平台（by id）
+Resource          ../../RESOURCE/customer-platform_customerplatform_api_resource.txt
+
+*** Test Cases ***
+Get CustomerPlatform By Id
+    [Tags]    yuqing    getcusplatformbyid    customerplatform
+    [Template]    Get_CustomerPlatform_By_Id_Temp
+    Get CustomerPlatform By Id-01：全部正确的参数    ${EMPTY}    5    1
+    Get CustomerPlatform By Id-02：查询不存在    ${EMPTY}    11111    0
+
+*** Keywords ***
+Get_CustomerPlatform_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customerplatform by id    ${id}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

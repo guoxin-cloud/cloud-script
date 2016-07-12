@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     增加角色信息
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Create Role
+    [Tags]    yuqing    createrole    role
+    [Template]    Create_Role_Temp
+    Create Permit-01：全部正确的参数    ${EMPTY}    RA0003    测试人员    1
+    Create Permit-02：增加重复角色    ${EMPTY}    RA0003    测试人员    0
+
+*** Keywords ***
+Create_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${code}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create role    ${cookie}    ${code}    ${name}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

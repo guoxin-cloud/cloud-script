@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     根据多个角色code查找（by userid）
+Resource          ../../RESOURCE/rbac_userrole_api_resource.txt
+
+*** Test Cases ***
+Fetch Userid By Rolecodes
+    [Tags]    yuqing    fetchuserid    userrole
+    [Template]    Fetch_Userid_By_Rolecodes_Temp
+    Fetch Userid By Rolecodes-01：全部正确的参数    ${EMPTY}    A001    1
+    Fetch Userid By Rolecodes-02：查询不存在    ${EMPTY}    1A001    1
+
+*** Keywords ***
+Fetch_Userid_By_Rolecodes_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${roleCodes}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch userid by rolecodes    ${cookie}    ${roleCodes}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

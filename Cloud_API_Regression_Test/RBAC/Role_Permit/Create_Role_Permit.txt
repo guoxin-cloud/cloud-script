@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     增加角色-权限对应关系
+Resource          ../../RESOURCE/rbac_rolepermit_api_resource.txt
+
+*** Test Cases ***
+Create Role Permit
+    [Tags]    yuqing    createrolepermit    rolepermit
+    [Template]    Create_Role_Permit_Temp
+    Create Role Permit-01：全部正确的参数    ${EMPTY}    35    13    1
+    Create Role Permit-02：重复建立角色权限关系    ${EMPTY}    35    13    0
+
+*** Keywords ***
+Create_Role_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${permitId}    ${roleId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create role permit    ${cookie}    ${permitId}    ${roleId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,142 @@
+*** Settings ***
+Documentation     公共基础关键字
+Library           Collections
+Library           RequestsLibrary
+Library           json
+Library           String
+Library           DatabaseLibrary
+Resource          common_resource.txt
+
+*** Keywords ***
+Post Request with Dict and Token
+    [Arguments]    ${root}    ${uri}    ${token}    @{form_data}
+    Create Session    demo    ${root}
+    ${data}=    Create Dictionary    @{form_data}
+    Comment    ${json_data}=    json.dumps    ${data}
+    ${headers}=    Create Dictionary    Content-Type    application/x-www-form-urlencoded    User-Agent    iOS/8.400000;iPhone 6 (A1549/A1586);beast/2.2.0.4711    Authorization
+    ...    ${token}
+    Comment    ${json_headers}=    json.dumps    ${headers}
+    ${resp}=    Post Request    demo    ${uri}    ${data}    ${headers}
+    [Return]    ${resp}
+
+MakeCID
+    ${yyyy}    ${mm}    ${dd}    ${hh}    ${min}    ${ss}=    Get Time
+    ...    year,month,day,hour, min, sec
+    ${cid}=    Set Variable    ${yyyy}${mm}${dd}${hh}${min}${ss}00000
+    [Return]    ${cid}
+
+MakeID
+    [Documentation]    生成10位ID值
+    ${yyyy}    ${mm}    ${dd}    ${hh}    ${min}    ${ss}=    Get Time
+    ...    year,month,day,hour, min, sec
+    ${id}=    Set Variable    ${yyyy}${mm}${dd}${hh}
+    [Return]    ${id}
+
+Currency Format
+    [Arguments]    ${value}
+    [Documentation]    货币格式转换
+    ${locale}=    Evaluate    locale.setlocale( locale.LC_ALL, '' )    locale
+    ${format_value}=    Evaluate    locale.currency(${value}, grouping=True)    locale
+    ${ignore_first}=    Get Substring    ${format_value}    1
+    [Return]    ${ignore_first}
+
+List Should Contain Value Contain
+    [Arguments]    ${str}    ${val}
+    ${status}=    Set Variable    FAIL
+    : FOR    ${item}    IN    @{str}
+    \    ${item}=    Evaluate    "${item}".decode('utf8')
+    \    ${status}    ${value}=    Run Keyword and Ignore Error    Should Contain    ${item}    ${val}
+    \    Run Keyword If    '${status}' == 'PASS'    Exit For Loop
+    Should Be Equal    ${status}    PASS
+    [Return]    ${status}
+
+Post Request with Dict
+    [Arguments]    ${root}    ${uri}    @{form_data}
+    Create Session    demo    ${root}
+    ${data}=    Create Dictionary    @{form_data}
+    ${json_data}=    json.dumps    ${data}
+    ${headers}=    Create Dictionary    Content-Type    application/json    User-Agent    iOS/8.400000;iPhone 6 (A1549/A1586);beast/2.2.0.4711
+    Comment    ${json_headers}=    json.dumps    ${headers}
+    ${resp}=    Post Request    demo    ${uri}    ${json_data}    ${headers}
+    [Return]    ${resp}
+
+Generate Email
+    ${yyyy}    ${mm}    ${dd}    ${hh}    ${min}    ${ss}=    Get Time
+    ...    year,month,day,hour, min, sec
+    ${email}=    Set Variable    apitest${yyyy}${mm}${dd}${hh}${min}${ss}@speedx.com
+    [Return]    ${email}
+
+Post Request with Dict and Cookie
+    [Arguments]    ${root}    ${uri}    ${session}    @{form_data}
+    Create Session    demo    ${root}
+    ${data}=    Create Dictionary    @{form_data}
+    Comment    ${json_data}=    json.dumps    ${data}
+    ${headers}=    Create Dictionary    Content-Type    application/x-www-form-urlencoded    User-Agent    ${USER_AGENT}    Cookie
+    ...    ${session}
+    ${resp}=    Post Request    demo    ${uri}    ${data}    \    ${headers}
+    log    ${headers}
+    [Return]    ${resp}
+
+Get List From Api
+    [Arguments]    ${resp}    ${element_name}
+    ${alist}    Create List
+    ${len}=    Get Length    ${resp[3]}
+    : FOR    ${INDEX}    IN RANGE    0    ${len}
+    \    ${el}=    Convert To String    ${resp[3][${INDEX}]['${element_name}']}
+    \    Append To List    ${alist}    ${el}
+    [Return]    ${alist}
+
+Get List From DB
+    [Arguments]    ${query_result}
+    ${alist}    Create List
+    : FOR    ${el}    IN    @{query_result}
+    \    Append To List    ${alist}    ${el[0]}
+    [Return]    ${alist}
+
+Compare DB with API
+    [Arguments]    ${count}    ${resp}    ${element_name}    ${sql}
+    ${list_api}=    Run Keyword If    '${username}'!='NOLOGIN'    Get List From Api    ${count}    ${resp}    ${element_name}
+    ${query_result}=    Run Keyword If    '${username}'!='NOLOGIN'    QueryViaSSH    ${sql}
+    ${list_db}=    Run Keyword If    '${username}'!='NOLOGIN'    Get List From DB    ${query_result}
+    Run Keyword If    '${username}'!='NOLOGIN'    Lists Should Be Equal    ${list_api}    ${list_db}
+
+Compare DB with API Contains
+    [Arguments]    ${resp}    ${element_name}    ${sql}
+    ${list_api}=    Run Keyword If    '${username}'!='NOLOGIN'    Get List From Api    ${resp}    ${element_name}
+    ${query_result}=    Run Keyword If    '${username}'!='NOLOGIN'    QueryViaSSH    ${sql}
+    ${list_db}=    Run Keyword If    '${username}'!='NOLOGIN'    Get List From DB    ${query_result}
+    Run Keyword If    '${username}'!='NOLOGIN'    List Should Contain Sub List    ${list_db}    ${list_api}
+
+Get Request with Cookie
+    [Arguments]    ${root}    ${uri}    ${cookies}    @{form_data}
+    Create Session    demo    ${root}
+    ${data}=    Create Dictionary    @{form_data}
+    Comment    ${json_data}=    json.dumps    ${data}
+    ${headers}=    Create Dictionary    Content-Type    application/json    Cookie    ${cookies}    User-Agent
+    ...    ${USER_AGENT}
+    ${resp}=    Get Request    demo    ${uri}    ${headers}    ${data}
+    [Return]    ${resp}
+
+Del Request with Cookie
+    [Arguments]    ${root}    ${uri}    ${cookies}
+    Create Session    demo    ${root}
+    ${headers}=    Create Dictionary    Content-Type    application/json    Cookie    ${cookies}    User-Agent
+    ...    ${USER_AGENT}
+    ${resp}=    Delete Request    demo    ${uri}    ${headers}
+    [Return]    ${resp}
+
+Connect To DB
+    [Arguments]    ${DBTYPE}    ${DBNAME}    ${DBUSERNAME}    ${DBPASSWORD}    ${DBHOST}    ${DBPORT}
+    [Documentation]    A basic keyword for DB connection
+    Connect To Database    ${DBTYPE}    ${DBNAME}    ${DBUSERNAME}    ${DBPASSWORD}    ${DBHOST}    ${DBPORT}
+
+Post Request with json
+    [Arguments]    ${root}    ${uri}    ${session}    @{form_data}
+    Create Session    demo    ${root}
+    ${data}=    Create Dictionary    @{form_data}
+    Comment    ${json_data}=    json.dumps    ${data}
+    ${headers}=    Create Dictionary    Content-Type    application/json    User-Agent    ${USER_AGENT}    Cookie
+    ...    ${session}
+    ${resp}=    Post Request    demo    ${uri}    ${data}    \    ${headers}
+    log    ${headers}
+    [Return]    ${resp}

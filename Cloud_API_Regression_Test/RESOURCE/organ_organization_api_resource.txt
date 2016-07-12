@@ -1,0 +1,69 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add node
+    [Arguments]    ${cookie}    ${parentId}    ${name}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_ADD_NODE_URI}    ${cookie}    parentId    ${parentId}
+    ...    name    ${name}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update node
+    [Arguments]    ${cookie}    ${id}    ${parentId}    ${name}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_UPDATE_NODE_URI}    ${cookie}    id    ${id}
+    ...    parentId    ${parentId}    name    ${name}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    Connect To DB    ${DBTYPE}    ${DBNAME}    ${DBUSERNAME}    ${DBPASSWORD}    ${DBHOST}    ${DBPORT}
+    ${queryResults}=    query    select * from organization
+    ${status}    ${organ_value}=    Run Keyword And Ignore Error    Set Variable    ${queryResults[0][2]}
+    [Return]    ${resp}    ${success}    ${organ_value}    ${message}
+
+fetch node by id
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_FETCH_ID_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_id}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['id']}
+    [Return]    ${resp}    ${success}    ${value_id}    ${message}
+
+fetch node list
+    [Arguments]    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_LIST_NODE_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+show tree view
+    [Arguments]    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_SHOW_TREE_VIEW_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete node
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${ORGAN_PORT}    ${ORGAN_DELETE_NODE_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

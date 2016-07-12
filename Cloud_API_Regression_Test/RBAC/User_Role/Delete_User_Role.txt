@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除用户-角色对应关系
+Resource          ../../RESOURCE/rbac_userrole_api_resource.txt
+
+*** Test Cases ***
+Delete User Role
+    [Tags]    yuqing    deleteuserrole    userrole
+    [Template]    Delete_User_Role_Temp
+    Delete User Role-01：全部正确的参数    ${EMPTY}    33    1
+    Delete User Role-02：删除不存在    ${EMPTY}    33    0
+
+*** Keywords ***
+Delete_User_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete user role    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

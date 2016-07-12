@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     批量删除角色信息
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Batch Delete Role
+    [Tags]    yuqing    batchdeleterole    role
+    [Template]    Batch_Delete_Role_Temp
+    Batch Delete Role-01：全部正确的参数    ${EMPTY}    10    11    1
+    Batch Delete Role-02：删除不存在    ${EMPTY}    10    11    0
+
+*** Keywords ***
+Batch_Delete_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id1}    ${id2}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    batch delete role    ${cookie}    ${id1},${id2}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

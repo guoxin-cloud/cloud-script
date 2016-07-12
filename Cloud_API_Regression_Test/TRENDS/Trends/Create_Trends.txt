@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     创建用户操作记录（json）
+Resource          ../../RESOURCE/trends_trends_api_resource.txt
+
+*** Test Cases ***
+Create Trends
+    [Tags]    yuqing    createtrends    trends
+    [Template]    Create_Trends_Temp
+    Create Trends-01：全部正确的参数    ${EMPTY}    {"contents":"test", "operatorId":"操作者id", "operatorType":"employee", "targetId":"目标id", "trendsType":"操作类型"}    [{"newValue":"新值","oldValue":"旧值","propertyName":"树形名称"}, {"newValue":"新值1","oldValue":"旧值1","propertyName":"树形名称1"}]    1
+
+*** Keywords ***
+Create_Trends_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${trend}    ${trendsdesc}    ${success}
+    ${trends}=    To Json    ${trend}
+    ${trendsDetail}=    To Json    ${trendsdesc}
+    ${resp}=    create trends    ${cookie}    ${trends}    ${trendsDetail}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

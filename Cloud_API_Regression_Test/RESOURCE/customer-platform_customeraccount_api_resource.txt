@@ -1,0 +1,68 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add customer account
+    [Arguments]    ${cookie}    ${accountId}    ${accountName}    ${accountNumber}    ${idType}    ${idNumber}
+    ...    ${bankId}    ${bankCardNumber}    ${customerId}
+    ${resp}=    Post Request with json    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_ADD_CUSTOMER_ACCOUNT_URI}    ${cookie}    accountId    ${accountId}
+    ...    accountName    ${accountName}    accountNumber    ${accountNumber}    idType    ${idType}
+    ...    idNumber    ${idNumber}    bankId    ${bankId}    bankCardNumber    ${bankCardNumber}
+    ...    customerId    ${customerId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${value}=    Run Keyword IF    '${success}'=='1'    Set Variable    ${resp.json()['value']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}    ${value}
+
+update customer account
+    [Arguments]    ${accountId}    ${cookie}    ${accountId}    ${accountName}    ${accountNumber}    ${idType}
+    ...    ${idNumber}    ${bankId}    ${bankCardNumber}    ${customerId}
+    ${resp}=    Post Request with json    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_UPDATE_CUSTOMER_ACCOUNT_URI}/${accountId}    ${cookie}    accountId    ${accountId}
+    ...    accountName    ${accountName}    accountNumber    ${accountNumber}    idType    ${idType}
+    ...    idNumber    ${idNumber}    bankId    ${bankId}    bankCardNumber    ${bankCardNumber}
+    ...    customerId    ${customerId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${value}=    Run Keyword IF    '${success}'=='1'    Set Variable    ${resp.json()['value']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}    ${value}
+
+get customeraccount by accountnumber
+    [Arguments]    ${accountNumber}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSACCOUNT_BY_ACCOUNTNUMBER_URI}/${accountNumber}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customeraccount by customerid
+    [Arguments]    ${accountId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSACCOUNT_BY_CUSTOMERID_URI}/${accountId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customeraccount by idnumber
+    [Arguments]    ${idNumber}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_GET_CUSACCOUNT_BY_IDNUMBER_URI}/${idNumber}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+cancel customer account
+    [Arguments]    ${accountId}    ${cookie}    ${customerId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PLATFORM_PORT}    ${CUSTOMER_CANCEL_CUSTOMER_ACCOUNT_URI}/${accountId}    ${cookie}    customerId    ${customerId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

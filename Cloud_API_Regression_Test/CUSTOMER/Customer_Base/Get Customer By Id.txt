@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     返回用户基本信息（by id）
+Resource          ../../RESOURCE/customer_customerbase_api_resource.txt
+
+*** Test Cases ***
+Get Customer By Id
+    [Tags]    yuqing    getcustomerbyid    customerbase
+    [Template]    Get_Customer_By_Id_Temp
+    Get Customer By Id-01：全部正确的参数    D9561E1C45AE45E5A1B1BB9D03A7D916    ${EMPTY}    1
+    Get Customer By Id-02：查询不存在的customerId    D9561E1C45AE45E5A1B1BB9D03A7D915    ${EMPTY}    0
+
+*** Keywords ***
+Get_Customer_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer by id    ${customerId}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

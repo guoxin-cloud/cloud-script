@@ -1,0 +1,18 @@
+*** Settings ***
+Documentation     添加新用户交易账号平台资源
+Resource          ../../RESOURCE/customer-platform_customerplatform_api_resource.txt
+
+*** Test Cases ***
+Add Customer Platform
+    [Tags]    yuqing    addcustomerplatform    customerplatform
+    [Template]    Add_Customer_Platform_Temp
+    Add Customer Platform-01：全部正确的参数    ${EMPTY}    亲爱的    15512341111    F3A3C099295247B0BBB0A83EBA60A720    6    1
+    Add Customer Platform-02：增加已存在的账户平台    ${EMPTY}    亲爱的    15512341111    F3A3C099295247B0BBB0A83EBA60A720    6    0
+
+*** Keywords ***
+Add_Customer_Platform_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${accountName}    ${accountNumber}    ${customerId}    ${platformId}
+    ...    ${success}
+    log    ${testdata_info}
+    ${resp}=    add customer platform    ${cookie}    ${accountName}    ${accountNumber}    ${customerId}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

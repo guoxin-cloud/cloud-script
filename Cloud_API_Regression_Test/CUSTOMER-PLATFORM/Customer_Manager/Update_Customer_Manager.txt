@@ -1,0 +1,18 @@
+*** Settings ***
+Documentation     修改用户客户经理
+Resource          ../../RESOURCE/customer-platform_customermanager_api_resource.txt
+
+*** Test Cases ***
+Update Customer Manager
+    [Tags]    yuqing    updatecustmanager    customermanager
+    [Template]    Update_Customer_Manager_Temp
+    Update Customer Manager-01：全部正确的参数    1    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C9    4E61E62D033F418AB08479AA4DD16C50    1    1
+    Update Customer Manager-02：修改不存在id    100    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C8    4E61E62D033F418AB08479AA4DD16C50    1    0
+
+*** Keywords ***
+Update_Customer_Manager_Temp
+    [Arguments]    ${testdata_info}    ${id}    ${cookie}    ${customerId}    ${employeeId}    ${platformId}
+    ...    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update customer manager    ${id}    ${cookie}    ${customerId}    ${employeeId}    ${platformId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

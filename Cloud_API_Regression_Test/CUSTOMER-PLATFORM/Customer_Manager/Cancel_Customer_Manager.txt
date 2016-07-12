@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除用户客户经理
+Resource          ../../RESOURCE/customer-platform_customermanager_api_resource.txt
+
+*** Test Cases ***
+Cancel Customer Manager
+    [Tags]    yuqing    cancelcustmanager    customermanager
+    [Template]    Cancel_Customer_Manager_Temp
+    Cancel Customer Manager-01：全部正确的参数    1    ${EMPTY}    1
+    Cancel Customer Manager-02：删除不存在id    100    ${EMPTY}    0
+
+*** Keywords ***
+Cancel_Customer_Manager_Temp
+    [Arguments]    ${testdata_info}    ${id}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    cancel customer manager    ${id}    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

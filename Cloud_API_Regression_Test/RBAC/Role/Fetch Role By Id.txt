@@ -1,0 +1,20 @@
+*** Settings ***
+Documentation     获取角色信息（by id）
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Fetch Role By Id
+    [Tags]    yuqing    fetchrole    role
+    [Template]    Fetch_Role_By_Id_temp
+    Fetch Role By Id-01：全部正确的参数    ${EMPTY}    13    1
+    Fetch Role By Id-02：查询不存在    ${EMPTY}    12    0
+
+*** Keywords ***
+Fetch_Role_By_Id_temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch role by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    ${resp_id}    Convert To List    ${resp[2]}
+    Run Keyword If    ${success}==0    Set Test Message    fail
+    Run Keyword Unless    ${resp_id}!=""    Should Contain    ${resp[2]}    ${id}

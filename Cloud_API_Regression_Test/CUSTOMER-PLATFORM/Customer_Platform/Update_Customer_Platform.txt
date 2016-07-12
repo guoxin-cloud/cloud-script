@@ -1,0 +1,21 @@
+*** Settings ***
+Documentation     修改用户交易账号平台资源
+Resource          ../../RESOURCE/customer-platform_customerplatform_api_resource.txt
+
+*** Test Cases ***
+Update Customer Platform
+    [Tags]    yuqing    updatecustomerplatform    customerplatform
+    [Template]    Update_Customer_Platform_Temp
+    Update Customer Platform-01：全部正确的参数    35    ${EMPTY}    修改    155333333333000    1D17F11EC4604382AD41383A276C9395    30
+    ...    1    1
+    Update Customer Platform-02：修改不存在账户资源    1    ${EMPTY}    修改    155333333333000    1D17F11EC4604382AD41383A276C9395    30
+    ...    1    0
+
+*** Keywords ***
+Update_Customer_Platform_Temp
+    [Arguments]    ${testdata_info}    ${id}    ${cookie}    ${accountName}    ${accountNumber}    ${customerId}
+    ...    ${platformId}    ${type}    ${success}
+    log    ${testdata_info}
+    ${resp}=    update customer platform    ${id}    ${cookie}    ${accountName}    ${accountNumber}    ${customerId}
+    ...    ${platformId}    ${type}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

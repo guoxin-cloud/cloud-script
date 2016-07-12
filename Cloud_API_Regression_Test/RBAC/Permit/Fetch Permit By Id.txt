@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取权限项信息（by id）
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Fetch Permit By Id
+    [Tags]    yuqing    fetchpermit    permit
+    [Template]    Fetch_Permit_ By_Id_Temp
+    Fetch Permit By Id-01：全部正确的参数    ${EMPTY}    35    1
+    Fetch Permit By Id-02：查询不存在    ${EMPTY}    34    0
+
+*** Keywords ***
+Fetch_Permit_ By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch permit by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

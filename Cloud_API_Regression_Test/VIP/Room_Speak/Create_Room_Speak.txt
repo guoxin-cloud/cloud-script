@@ -1,0 +1,21 @@
+*** Settings ***
+Documentation     创建单条播间发言
+Resource          ../../RESOURCE/vip_roomspeak_api_resource.txt
+
+*** Test Cases ***
+Create Room Speak
+    [Tags]    yuqing    addroomspeak    roomspeak
+    [Template]    Create_Room_Speak_Temp
+    Create Room Speak-01：全部正确的参数    ${EMPTY}    1    播间发言一    False    1    1
+    ...    D666E71444D445E1877B08CD14D886EB    1
+    Create Room Speak-02：重复增加播间发言    ${EMPTY}    1    播间发言一    False    1    1
+    ...    D666E71444D445E1877B08CD14D886EB    1
+
+*** Keywords ***
+Create_Room_Speak_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userType}    ${content}    ${isDeleted}    ${periodid}
+    ...    ${roomid}    ${employeeid}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create room speak    ${cookie}    ${userType}    ${content}    ${isDeleted}    ${periodid}
+    ...    ${roomid}    ${employeeid}
+    should be equal as strings    ${resp[1]}    ${success}

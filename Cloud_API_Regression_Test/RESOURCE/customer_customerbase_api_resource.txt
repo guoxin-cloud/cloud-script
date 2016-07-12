@@ -1,0 +1,24 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+get customer by id
+    [Arguments]    ${customerId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_GET_CUSTOMER_URI}/${customerId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+list customer
+    [Arguments]    ${cookie}    ${query}    ${page}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_LIST_CUSTOMER_URI}    ${cookie}    query    ${query}
+    ...    page    ${page}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_total}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['content']}
+    ${status4}    ${value_list}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['content'][0]['customerId']}
+    [Return]    ${resp}    ${success}    ${value_total}    ${value_list}    ${message}

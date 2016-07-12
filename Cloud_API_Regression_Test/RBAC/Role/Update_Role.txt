@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     修改角色信息
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Update Role
+    [Tags]    yuqing    updaterole    role
+    [Template]    Update_Role_Temp
+    Update Role-01：全部正确的参数    ${EMPTY}    13    测试人员    1    1
+    Update Role-02：更新不存在    ${EMPTY}    12    测试人员    1    0
+
+*** Keywords ***
+Update_Role_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${name}    ${parentId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update role    ${cookie}    ${id}    ${name}    ${parentId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

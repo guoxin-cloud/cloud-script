@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     创建单条播间规则
+Resource          ../../RESOURCE/vip_roomviprule_api_resource.txt
+
+*** Test Cases ***
+Create Room Vip Rule
+    [Tags]    yuqing    createroomviprule    roomtopic
+    [Template]    Create_Room_Vip_Rule_Temp
+    Create Room Vip Rule-01：全部正确的参数    ${EMPTY}    1000    5000    3    1
+    Create Room Vip Rule-02：重复增加播间规则    ${EMPTY}    1000    5000    3    0
+
+*** Keywords ***
+Create_Room_Vip_Rule_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${fundLower}    ${fundUpper}    ${roomId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create room vip rule    ${cookie}    ${fundLower}    ${fundUpper}    ${roomId}
+    should be equal as strings    ${resp[1]}    ${success}

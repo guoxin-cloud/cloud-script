@@ -1,0 +1,44 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create room speak
+    [Arguments]    ${cookie}    ${userType}    ${content}    ${isDeleted}    ${periodId}    ${roomId}
+    ...    ${userId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${VIP_CREATE_ROOM_SPEAK_URI}    ${cookie}    userType    ${userType}
+    ...    content    ${content}    isDeleted    ${isDeleted}    periodId    ${periodId}
+    ...    roomId    ${roomId}    userId    ${userId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update room speak
+    [Arguments]    ${cookie}    ${id}    ${content}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${VIP_UPDATE_ROOM_SPEAK_URI}    ${cookie}    id    ${id}
+    ...    content    ${content}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+room speak page
+    [Arguments]    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${VIP_PAGE_ROOM_SPEAK_URI}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_list}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['resultList']['content']}
+    [Return]    ${resp}    ${success}    ${value}    ${value_list}    ${message}
+
+delete room speak
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${VIP_DELETE_ROOM_SPEAK_URI}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

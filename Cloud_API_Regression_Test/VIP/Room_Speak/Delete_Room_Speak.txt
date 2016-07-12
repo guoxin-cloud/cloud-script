@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     逻辑删除单条播间发言（by id）
+Resource          ../../RESOURCE/vip_roomspeak_api_resource.txt
+
+*** Test Cases ***
+Delete_Room_Speak
+    [Tags]    yuqing    deleteroomspeak    roomspeak
+    [Template]    Delete_Room_Speak_Temp
+    Delete_Room_Speak-01：全部正确的参数    ${EMPTY}    1    1
+    Delete_Room_Speak-02：删除不存在    ${EMPTY}    1    1
+
+*** Keywords ***
+Delete_Room_Speak_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete room speak    ${cookie}    ${id}
+    should be equal as strings    ${resp[1]}    ${success}

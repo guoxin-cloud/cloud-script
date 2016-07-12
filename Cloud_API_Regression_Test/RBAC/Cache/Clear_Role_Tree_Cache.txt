@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     清除角色树缓存
+Resource          ../../RESOURCE/rbac_cache_api_resource.txt
+
+*** Test Cases ***
+Clear Role Tree Cache
+    [Tags]    yuqing    clearroletreecache    cache
+    [Template]    Clear_Role_Tree_Cache_Temp
+    Clear Role Tree Cache-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Clear_Role_Tree_Cache_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    clear role tree cache    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

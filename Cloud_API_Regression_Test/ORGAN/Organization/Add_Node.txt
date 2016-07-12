@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     新增节点
+Resource          ../../RESOURCE/organ_organization_api_resource.txt
+
+*** Test Cases ***
+Add Node
+    [Tags]    yuqing    addnode    organ
+    [Template]    Add_Node_Temp
+    Add Node-01：全部正确的参数    ${EMPTY}    C0010    部门C    1
+    Add Node-02：添加已存在部门    ${EMPTY}    C0010    部门C    0
+
+*** Keywords ***
+Add_Node_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${parentId}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    add node    ${cookie}    ${parentId}    ${name}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

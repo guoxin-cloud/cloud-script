@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     修改权限项信息
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Update Permit
+    [Tags]    yuqing    permit    updatepermit
+    [Template]    Update_Permit_Temp
+    Update Permit-01：全部正确的参数    ${EMPTY}    35    A0013    普通员工-a    1
+    Update Permit-01：修改不存在    ${EMPTY}    34    A0018    普通员工-a    0
+
+*** Keywords ***
+Update_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${code}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update permit    ${cookie}    ${id}    ${code}    ${name}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

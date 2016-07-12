@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     更新单条播间发言
+Resource          ../../RESOURCE/vip_roomspeak_api_resource.txt
+
+*** Test Cases ***
+Update Room Speak
+    [Tags]    yuqing    updateroomspeak    roomspeak
+    [Template]    Update_Room_Speak_Temp
+    Update Room Speak-01：全部正确的参数    ${EMPTY}    2    1
+    Update Room Speak-02：更新不存在    ${EMPTY}    2    1
+
+*** Keywords ***
+Update_Room_Speak_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${content_new}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update room speak    ${cookie}    ${id}    ${content_new}
+    should be equal as strings    ${resp[1]}    ${success}

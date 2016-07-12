@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     重新生成子角色列表显示顺序
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Generate All Path
+    [Tags]    yuqing    generateallpath    role
+    [Template]    Generate_All_Path_Temp
+    Generate All Path-01：全部正确的参数    ${EMPTY}    1    1
+
+*** Keywords ***
+Generate_All_Path_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${ids}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    generate all path    ${cookie}    ${ids}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

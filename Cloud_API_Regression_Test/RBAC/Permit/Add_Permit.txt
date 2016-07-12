@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     增加权限项信息
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Create Permit
+    [Tags]    yuqing    createpermit    permit
+    [Template]    Create_Permit_Temp
+    Create Permit-01：全部正确的参数    ${EMPTY}    PA003    管理员    1
+    Create Permit-02：重复增加权限    ${EMPTY}    PA003    管理员    0
+
+*** Keywords ***
+Create_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${code}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create permit    ${cookie}    ${code}    ${name}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

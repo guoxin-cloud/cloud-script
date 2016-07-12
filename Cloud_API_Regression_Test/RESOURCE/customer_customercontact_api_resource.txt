@@ -1,0 +1,23 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+get customer contact
+    [Arguments]    ${customerId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_GET_CUSTOMER_CONTACT_URI}/${customerId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update customer contact
+    [Arguments]    ${customerId}    ${cookie}    ${mobile}    ${name}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_UPDATE_CUSTOMER_CONTACT_URI}/${customerId}    customerId    ${customerId}    ${cookie}
+    ...    mobile    ${mobile}    name    ${name}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_cusid}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['customerId']}
+    [Return]    ${resp}    ${success}    ${value_cusid}    ${message}

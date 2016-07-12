@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     获取用户的客户经理（by employee）
+Resource          ../../RESOURCE/customer-platform_customermanager_api_resource.txt
+
+*** Test Cases ***
+Get CustomerManager By Employee
+    [Tags]    yuqing    getmanagerbyemployee    customermanager
+    [Template]    Get_CustomerManager_By_Employee_Temp
+    Get CustomerManager By Employee-01：全部正确的参数    ${EMPTY}    4E61E62D033F418AB08479AA4DD16C50    1
+
+*** Keywords ***
+Get_CustomerManager_By_Employee_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${employeeId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customermanager by employee    ${employeeId}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

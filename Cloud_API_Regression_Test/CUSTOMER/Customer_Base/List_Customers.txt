@@ -1,0 +1,22 @@
+*** Settings ***
+Documentation     按条件返回分页的用户列表（list）
+Resource          ../../RESOURCE/customer_customerbase_api_resource.txt
+
+*** Test Cases ***
+List Customer
+    [Tags]    yuqing    customerlist    customerbase
+    [Template]    List_Customer_Temp
+    List Customer-01：全部正确的参数    ${EMPTY}    D9561E1C45AE45E5A1B1BB9D03A7D916    1    1
+    List Customer-02：查询不存在的customerId    ${EMPTY}    D9561E1C45AE45E5A1B1BB9D03A7D915    1    1
+    List Customer-03：查询不存在的page    ${EMPTY}    D9561E1C45AE45E5A1B1BB9D03A7D916    100    1
+
+*** Keywords ***
+List_Customer_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${query}    ${page}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    list customer    ${cookie}    ${query}    ${page}
+    should be equal as strings    ${resp[1]}    ${success}
+    ${resp_total}    Convert To List    ${resp[2]}
+    ${resp_list}    Convert To List    ${resp[3]}
+    Run Keyword If    ${resp_total}==[]    Set Test Message    result is empty
+    Run Keyword Unless    ${resp_list}!=""    Should Contain    ${resp[3]}    ${query}

@@ -1,0 +1,45 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+get permits
+    [Arguments]    ${cookie}    ${userId}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_GET_PERMITS_URI}    ${cookie}    userId    ${userId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get roles
+    [Arguments]    ${cookie}    ${userId}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_GET_ROLES_URI}    ${cookie}    userId    ${userId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+has permit codes
+    [Arguments]    ${cookie}    ${userId}    ${permitCodes}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_HAS_PERMIT_CODES_URI}    ${cookie}    userId    ${userId}
+    ...    permitCodes    ${permitCodes}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+has role codes
+    [Arguments]    ${cookie}    ${userId}    ${roleCodes}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_HAS_ROLE_CODES_URI}    ${cookie}    userId    ${userId}
+    ...    roleCodes    ${roleCodes}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

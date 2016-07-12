@@ -1,0 +1,34 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create user role
+    [Arguments]    ${cookie}    ${userId}    ${roleId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CREATE_USER_ROLE_URI}    ${cookie}    userId    ${userId}
+    ...    roleId    ${roleId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete user role
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_DELETE_USER_ROLE_URI}    ${cookie}    id    ${id}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+fetch userid by rolecodes
+    [Arguments]    ${cookie}    ${roleCodes}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_FETCH_USERID_BY_ROLECODES_URI}    ${cookie}    roleCodes    ${roleCodes}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

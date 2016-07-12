@@ -1,0 +1,33 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+get customer identity
+    [Arguments]    ${customerId}    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_GET_CUSTOMER_IDENTITY_URI}/${customerId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update customer identity
+    [Arguments]    ${customerId}    ${cookie}    ${customerId}    ${checker}    ${idNumber}
+    ${resp}=    Post Request with json    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_UPDATE_CUSTOMER_IDENTITY_URI}/${customerId}    ${cookie}    customerId    ${customerId}
+    ...    checker    ${checker}    idNumber    ${idNumber}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}    ${value}
+
+check customer identity
+    [Arguments]    ${customerId}    ${cookie}    ${checkStatus}    ${checker}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${CUSTOMER_CHECK_CUSTOMER_IDENTITY_URI}/${customerId}    ${cookie}    checkStatus    ${checkStatus}
+    ...    checker    ${checker}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    ${status3}    ${value_status}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']['checkStatus']}
+    [Return]    ${resp}    ${success}    ${value_status}    ${message}

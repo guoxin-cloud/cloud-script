@@ -1,0 +1,34 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create trends
+    [Arguments]    ${cookie}    ${trends}    ${trendsDetail}
+    ${resp}=    Post Request with json    ${API_ROOT_URL_B}:${TRENDS_PORT}    ${TRENDS_CREATE_TRENDS_URI}    ${cookie}    trends    ${trends}
+    ...    trendsDetail    ${trendsDetail}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+find trendslist by operatorId
+    [Arguments]    ${cookie}    ${operatorId}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${TRENDS_PORT}    ${TRENDS_FIND_TRENDSLIST_BY_OPERATORID_URI}    ${cookie}    operatorId    ${operatorId}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+find trendspage by operatorId
+    [Arguments]    ${cookie}
+    ${resp}=    GET Request with Cookie    ${API_ROOT_URL}:${TRENDS_PORT}    ${TRENDS_FIND_TRENDSPAGE_BY_OPERATORID_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除权限项信息
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Delete Permit
+    [Tags]    yuqing    deletepermit    permit
+    [Template]    Delete_Permit_Temp
+    Delete Permit-01：全部正确的参数    ${EMPTY}    34    1
+    Delete Permit-02：删除不存在    ${EMPTY}    34    0
+
+*** Keywords ***
+Delete_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete permit    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     获取用户的交易账号平台（by accountid）
+Resource          ../../RESOURCE/customer-platform_customerplatform_api_resource.txt
+
+*** Test Cases ***
+Get CustomerPlatform By CustomerId
+    [Tags]    yuqing    getcusplatformrbycustomerid    customerplatform
+    [Template]    Get_CustomerPlatform_By_CustomerId_Temp
+    Get CustomerPlatform By CustomerId-01：全部正确的参数    ${EMPTY}    8E6ABE4146D34F4DAE545478A8F385C9    1
+
+*** Keywords ***
+Get_CustomerPlatform_By_CustomerId_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${customerId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customerplatform by customerid    ${customerId}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

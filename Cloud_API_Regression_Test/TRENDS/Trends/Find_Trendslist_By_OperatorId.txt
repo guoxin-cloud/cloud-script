@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     根据操作者id查找用户记录（by operatorId）
+Resource          ../../RESOURCE/trends_trends_api_resource.txt
+
+*** Test Cases ***
+Find Trendslist By OperatorId
+    [Tags]    yuqing    findtrendslist    permit
+    [Template]    Find_Trendslist_By_OperatorId_Temp
+    Find Trendslist By OperatorId-01：全部正确的参数    ${EMPTY}    123    1
+
+*** Keywords ***
+Find_Trendslist_By_OperatorId_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${operatorId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    find trendslist by operatorId    ${cookie}    ${operatorId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

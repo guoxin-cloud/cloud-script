@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除用户交易账号明细资源
+Resource          ../../RESOURCE/customer-platform_customeraccount_api_resource.txt
+
+*** Test Cases ***
+Cancel Customer Account
+    [Tags]    yuqing    cancelcustomeraccount    customeraccount
+    [Template]    Cancel_Customer_Account_Temp
+    Cancel Customer Account-01：全部正确的参数    14    ${EMPTY}    1D17F11EC4604382AD41383A276C9395    1
+    Cancel Customer Account-02：删除不存在的账户    1    ${EMPTY}    1D17F11EC4604382AD41383A276C9395    0
+
+*** Keywords ***
+Cancel_Customer_Account_Temp
+    [Arguments]    ${testdata_info}    ${accountId}    ${cookie}    ${customerId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    cancel customer account    ${accountId}    ${cookie}    ${customerId}
+    should be equal as strings    ${resp[1]}    ${success}

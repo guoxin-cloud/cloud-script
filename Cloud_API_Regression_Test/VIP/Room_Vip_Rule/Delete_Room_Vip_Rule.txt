@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     删除单条播间规则
+Resource          ../../RESOURCE/vip_roomviprule_api_resource.txt
+
+*** Test Cases ***
+Delete Room Vip Rule
+    [Tags]    yuqing    deleteroomviprule    roomtopic
+    [Template]    Delete_Room_Vip_Rule_Temp
+    Delete Room Vip Rule-01：全部正确的参数    ${EMPTY}    33    1
+    Delete Room Vip Rule-02：删除不存在    ${EMPTY}    33    0
+
+*** Keywords ***
+Delete_Room_Vip_Rule_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete room vip rule    ${cookie}    ${id}
+    should be equal as strings    ${resp[1]}    ${success}

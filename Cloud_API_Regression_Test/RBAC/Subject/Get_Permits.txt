@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取某用户的全部权限项
+Resource          ../../RESOURCE/rbac_subject_api_resource.txt
+
+*** Test Cases ***
+Get Permits
+    [Tags]    yuqing    getpermits    subject
+    [Template]    Get_Permits_Temp
+    Get Permits-01：全部正确的参数    ${EMPTY}    D666E71444D445E1877B08CD14D886EB    1
+    Get Permits-02：查询不存在    ${EMPTY}    D666E71444D445E1877B08CD14D886E1    1
+
+*** Keywords ***
+Get_Permits_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get permits    ${cookie}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

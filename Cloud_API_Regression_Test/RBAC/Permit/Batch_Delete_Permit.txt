@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     批量删除权限项信息
+Resource          ../../RESOURCE/rbac_permit_api_resource.txt
+
+*** Test Cases ***
+Batch Delete Permit
+    [Tags]    yuqing    batchdeletepermit    permit
+    [Template]    Batch_Delete_Permit_Temp
+    Batch Delete Permit-01：全部正确的参数    ${EMPTY}    31    32    1
+    Batch Delete Permit-02：删除不存在    ${EMPTY}    31    32    0
+
+*** Keywords ***
+Batch_Delete_Permit_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id1}    ${id2}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    batch delete permit    ${cookie}    ${id1},${id2}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

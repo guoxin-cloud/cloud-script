@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     修改单条播间主题
+Resource          ../../RESOURCE/vip_roomtopic_api_resource.txt
+
+*** Test Cases ***
+Update Room Topic
+    [Tags]    yuqing    updateroomtopic    roomtopic
+    [Template]    Update_Room_Topic_Temp
+    Update Room Topic-01：全部正确的参数    ${EMPTY}    D666E71444D445E1877B08CD14D886EB    1    主题一    1
+    Update Room Topic-02：修改不存在    ${EMPTY}    D666E71444D445E1877B08CD14D886EB    0    主题一    0
+
+*** Keywords ***
+Update_Room_Topic_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${creatorId}    ${id}    ${title_new}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update room topic    ${cookie}    ${creatorId}    ${id}    ${title_new}
+    should be equal as strings    ${resp[1]}    ${success}

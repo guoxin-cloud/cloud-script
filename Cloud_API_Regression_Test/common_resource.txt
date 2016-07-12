@@ -4,7 +4,6 @@ Documentation     全局变量
 *** Variables ***
 <<<<<<< HEAD
 ${API_ROOT_URL}    http://123.56.251.59    #测试环境服务器IP123.56.251.59
-=======
 ${API_ROOT_URL}    http://192.168.100.140    #测试环境服务器IP
 >>>>>>> d2a9d51e9fb2e2b4aed7cf35d93188a12c46f2ae
 ${SERVICE_PORT}    10080    #服务端口
@@ -71,5 +70,89 @@ ${DBUSERNAME}     root    # 数据库用户名
 ${DBPASSWORD}     123456    # 数据库密码
 ${DBHOST}         101.200.184.125    # 数据库ip
 ${DBPORT}         3306    # 数据库端口
-=======
 >>>>>>> d2a9d51e9fb2e2b4aed7cf35d93188a12c46f2ae
+${EMPLOYEE_PORT}    10110    # EMPLOYEE端口号
+${ADD_EMPLOYEE_BASIC_INFO_URI}    basic/add    # EMPLOYEE-新增用户基本信息
+${ORGAN_PORT}     10070    # ORGAN端口号
+${ORGAN_ADD_NODE_URI}    department/add    # ORGAN-增加节点
+${ORGAN_UPDATE_NODE_URI}    department/update    # ORGAN-更新组织结构
+${ORGAN_FETCH_ID_URI}    department/fetch-id    # ORGAN查找组织结构的集合
+${ORGAN_LIST_NODE_URI}    department/list    # ORGAN-查找组织结构的集合列表
+${ORGAN_SHOW_TREE_VIEW_URI}    department/treeview    # ORGAN-查找组织结构的树形
+${ORGAN_DELETE_NODE_URI}    department/del-id    # ORGAN-删除节点
+${RBAC_PORT}      10030    # RBAC端口号
+${RBAC_CREATE_PERMIT_URI}    permit/add    # RBAC-增加权限项信息
+${RBAC_UPDATE_PERMIT_URI}    permit/update    # RBAC-修改权限项信息
+${RBAC_FETCH_PERMIT_URI}    permit/fetch    # ORGAN查找组织结构的集合
+${RBAC_LIST_PERMIT_URI}    permit/page    # ORGAN-查找组织结构的集合列表
+${RBAC_DELETE_PERMIT_URI}    permit/delete    # RBAC-删除权限项信息
+${RBAC_BATCH_DELETE_PERMIT_URI}    permit/batch-delete    # RBAC-批量删除权限项信息
+${RBAC_CREATE_ROLE_URI}    role/add    # RBAC-增加角色信息
+${RBAC_CHANGE_ROLE_PARENT_URI}    role/set-parent    # RBAC-设置角色的父角色
+${RBAC_UPDATE_ROLE_URI}    role/update    # RBAC-修改角色信息
+${RBAC_GENERATE_ALL_PATH_URI}    role/gen-index    # RBAC-重新生成子角色列表显示顺序
+${RBAC_FETCH_ID_URI}    role/fetch    # RBAC-获取角色信息
+${RBAC_LIST_ROLE_URI}    role/page    # RBAC-角色分页查询
+${RBAC_SHOW_TREE_VIEW_URI}    role/tree    # RBAC-获取角色树
+${RBAC_DELETE_ROLE_URI}    role/delete    # RBAC-删除角色信息
+${RBAC_DELETE_BATCH_ROLE_URI}    role/batch-delete    # RBAC-批量删除角色信息
+${RBAC_CREATE_ROLE_PERMIT_URI}    role-permit/add    # RBAC-增加角色-权限对应关系
+${RBAC_DELETE_ROLE_PERMIT_URI}    role-permit/delete    # RBAC-删除角色-权限对应关系
+${RBAC_GET_PERMITS_URI}    subject/permits    # RBAC-获取某用户的全部权限项
+${RBAC_GET_ROLES_URI}    subject/roles    # RBAC-获取某用户的全部角色信息
+${RBAC_HAS_PERMIT_CODES_URI}    subject/has-permits    # RBAC-判断某用户是否有某些权限项其中之一
+${RBAC_HAS_ROLE_CODES_URI}    subject/has-roles    # RBAC-判断某用户是否有某些角色其中之一
+${RBAC_CLEAR_ALL_CACHE_URI}    cache/clear    # RBAC-清除全部缓存
+${RBAC_CLEAR_ROLE_TREE_CACHE_URI}    cache/clear-role-tree    # RBAC-清除角色树缓存
+${RBAC_CLEAR_SUBJECT_CACHE_URI}    cache/clear-subject    # RBAC-清除用户缓存
+${RBAC_CREATE_USER_ROLE_URI}    user-role/add    # RBAC-增加用户-角色对应关系
+${RBAC_DELETE_USER_ROLE_URI}    user-role/delete    # RBAC-删除用户-角色对应关系
+${RBAC_FETCH_USERID_BY_ROLECODES_URI}    user-role/fetch-roleCodes?    # RBAC-根据多个角色code查找userid
+${TRENDS_PORT}    10050    # TRENDS端口号
+${TRENDS_CREATE_TRENDS_URI}    trends/add    # TRENDS-创建用户操作记录
+${TRENDS_FIND_TRENDSLIST_BY_OPERATORID_URI}    trends/list    # TRENDS-根据操作者id查找用户记录
+${TRENDS_FIND_TRENDSPAGE_BY_OPERATORID_URI}    trends/page    # TRENDS-根据target_id(目标id)查找用户记录
+${VIP_PORT}       10080    # VIP端口号
+${CREAT_ROOM_URI}    room/add    # VIP-创建单条播间
+${CREATE_ROOM_PERIOD_URL}    room-period/add    # VIP-创建单条播间期
+${VIP_CREATE_ROOM_SPEAK_URI}    room-speak/add    # VIP-创建单条播间发言
+${VIP_UPDATE_ROOM_SPEAK_URI}    room-speak/update    # VIP-更新单条播间发言
+${VIP_PAGE_ROOM_SPEAK_URI}    room-speak/page    # VIP-获取播间发言的分页列表数（page）
+${VIP_DELETE_ROOM_SPEAK_URI}    room-speak/delete    # VIP-根据id逻辑删除单条播间发言
+${VIP_CREATE_ROOM_TOPIC_URI}    room-topic/add    # VIP-创建单条播间主题
+${VIP_UPDATE_ROOM_TOPIC_URI}    room-topic/update    # VIP-更新单条播间主题
+${VIP_PAGE_ROOM_TOPIC_URI}    room-topic/page    # VIP-获取播间主题的分页列表数（page）
+${VIP_DELETE_ROOM_TOPIC_URI}    room-topic/delete    # VIP-逻辑删除单条播间主题（by id）
+${VIP_CREATE_ROOM_VIP_RULE_URI}    room-vip-rule/add    # VIP-创建单条播间规则
+${VIP_UPDATE_ROOM_VIP_RULE_URI}    room-vip-rule/update    # VIP-更新单条播间规则
+${VIP_FETCH_ROOM_VIP_RULE_URI}    room-vip-rule/fetch    # VIP-获取单条播间规则（by id）
+${VIP_LIST_ROOM_VIP_RULE_URI}    room-vip-rule/list    # VIP-获取所有播间规则列表（list）
+${VIP_DELETE_ROOM_VIP_RULE_URI}    room-vip-rule/delete    # VIP-根据id逻辑删除单条播间规则
+${CUSTOMER_PORT}    10100    # CUSTOMER端口号
+${ADD_CUSTOMER_URI}    add    # CUSTOMER-添加新用户
+${CUSTOMER_GET_CUSTOMER_URI}    base    # CUSTOMER-返回用户基本信息（by id）
+${CUSTOMER_LIST_CUSTOMER_URI}    base    # CUSTOMER-按条件返回分页的用户列表（list）
+${CUSTOMER_GET_CUSTOMER_CONTACT_URI}    contact    # CUSTOMER-获取用户联系信息
+${CUSTOMER_UPDATE_CUSTOMER_CONTACT_URI}    contact/update    # CUSTOMER-更新用户联系信息
+${CUSTOMER_GET_CUSTOMER_IDENTITY_URI}    identity    # CUSTOMER-获取用户身份验证信息
+${CUSTOMER_UPDATE_CUSTOMER_IDENTITY_URI}    identity/update    # CUSTOMER-更新用户身份验证信息
+${CUSTOMER_CHECK_CUSTOMER_IDENTITY_URI}    identity/check    # CUSTOMER-审核用户身份验证信息
+${CUSTOMER_PLATFORM_PORT}    10120    # CUSTOMER_PLATFORM端口号
+${CUSTOMER_ADD_CUSTOMER_ACCOUNT_URI}    account/add    # CUSTOMER_PLATFORM-添加新用户交易账号明细资源
+${CUSTOMER_UPDATE_CUSTOMER_ACCOUNT_URI}    account/update    # CUSTOMER_PLATFORM-修改用户交易账号明细信息
+${CUSTOMER_GET_CUSACCOUNT_BY_ACCOUNTNUMBER_URI}    account/accountNumber    # CUSTOMER_PLATFORM-获取用户的交易账号列表（by accountnumber）
+${CUSTOMER_GET_CUSACCOUNT_BY_CUSTOMERID_URI}    account    # CUSTOMER_PLATFORM-获取用户的交易账号明细（by accountid）
+${CUSTOMER_GET_CUSACCOUNT_BY_IDNUMBER_URI}    account/idNumber    # CUSTOMER_PLATFORM-获取用户的交易账号明细列表（by idnumber）
+${CUSTOMER_CANCEL_CUSTOMER_ACCOUNT_URI}    account/delete    # CUSTOMER_PLATFORM-删除用户交易账号明细信息
+${CUSTOMER_ADD_CUSTOMER_PLATFORM_URI}    add    # CUSTOMER_PLATFORM-添加新用户交易账号平台资源
+${CUSTOMER_ADD_CUSTOMER_PLATFORM_DETAIL_URI}    add-all/    # CUSTOMER_PLATFORM-添加新用户交易账号资源和明细
+${CUSTOMER_UPDATE_CUSTOMER_PLATFORM_URI}    update    # CUSTOMER_PLATFORM-修改用户交易账号平台资源
+${CUSTOMER_GET_CUSPLA_BY_CUSTOMERID_URI}    customer    # CUSTOMER_PLATFORM-获取用户的交易账号平台（by accountid）
+${CUSTOMER_GET_CUSPLA_BY_ID_URI}    /    # CUSTOMER_PLATFORM-获取用户的交易账号列表平台（by id）
+${CUSTOMER_CANCEL_CUSTOMER_PLATFORM_URI}    delete    # CUSTOMER_PLATFORM-删除用户交易账号平台资源
+${CUSTOMER_ADD_CUSTOMER_MANAGER_URI}    manager/add    # CUSTOMER_PLATFORM-添加新用户客户经理
+${CUSTOMER_UPDATE_CUSTOMER_MANAGER_URI}    manager/update    # CUSTOMER_PLATFORM-修改用户客户经理
+${CUSTOMER_GET_CUSMANAGER_BY_EMPLOYEE_URI}    manager/employee    # CUSTOMER_PLATFORM-获取用户的客户经理（by employee）
+${CUSTOMER_GET_CUSMANAGER_BY_CUSTOMERID_URI}    manager/customer    # CUSTOMER_PLATFORM-获取用户的客户经理（by customerid）
+${CUSTOMER_GET_CUSMANAGER_BY_ID_URI}    account    # CUSTOMER_PLATFORM-获取用户的客户经理（by id）
+${CUSTOMER_CANCEL_CUSTOMER_MANAGER_URI}    manager/cancel    # CUSTOMER_PLATFORM-删除用户客户经理

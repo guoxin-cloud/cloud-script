@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     更新用户联系信息
+Resource          ../../RESOURCE/customer_customercontact_api_resource.txt
+
+*** Test Cases ***
+Update Customer Contact
+    [Tags]    yuqing    updatecustomercontact    customercontact
+    [Template]    Update_Customer_Contact_Temp
+    Update Customer Contact-01：全部正确的参数    24346998B67245EB8E403930913CAE3B    ${EMPTY}    15041111113    改名字    1
+    Update Customer Contact-02：联系人姓名类型错误    24346998B67245EB8E403930913CAE3B    ${EMPTY}    15041111113    abcd    0
+
+*** Keywords ***
+Update_Customer_Contact_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${mobile}    ${name}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update customer contact    ${customerId}    ${cookie}    ${mobile}    ${name}
+    should be equal as strings    ${resp[1]}    ${success}
+    ${resp_cusid}=    Convert To List    ${resp[2]}
+    Run Keyword If    ${resp_cusid}!=[]    Should Contain    ${resp[2]}    ${customerId}

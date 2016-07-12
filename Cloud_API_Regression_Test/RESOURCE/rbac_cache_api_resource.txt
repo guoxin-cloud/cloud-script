@@ -1,0 +1,36 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+clear all cache
+    [Arguments]    ${cookie}
+    [Documentation]    清除全部缓存
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CLEAR_ALL_CACHE_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+clear role tree cache
+    [Arguments]    ${cookie}
+    [Documentation]    清除角色树缓存
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CLEAR_ROLE_TREE_CACHE_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+clear subject cache
+    [Arguments]    ${cookie}
+    [Documentation]    清除用户缓存
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${RBAC_PORT}    ${RBAC_CLEAR_SUBJECT_CACHE_URI}    ${cookie}
+    comment    Should Be Equal    ${resp[0]}    200
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status1}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     设置角色的父角色
+Resource          ../../RESOURCE/rbac_role_api_resource.txt
+
+*** Test Cases ***
+Change Role Parent
+    [Tags]    yuqing    changeparent    role
+    [Template]    Change_Role_Parent_Temp
+    Change Role Parent-01：全部正确的参数    ${EMPTY}    12    1    1
+    Change Role Parent-02：重复修改    ${EMPTY}    12    2    1
+
+*** Keywords ***
+Change_Role_Parent_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${parentId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    change role parent    ${cookie}    ${id}    ${parentId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

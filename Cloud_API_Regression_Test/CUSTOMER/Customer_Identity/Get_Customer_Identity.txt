@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取用户身份验证信息
+Resource          ../../RESOURCE/customer_customeridentity_api_resource.txt
+
+*** Test Cases ***
+Get Customer Identity
+    [Tags]    yuqing    getcustomeridentity    customeridentity
+    [Template]    Get_Customer_Identity_Temp
+    Get Customer Identity-01：全部正确的参数    D9561E1C45AE45E5A1B1BB9D03A7D916    ${EMPTY}    1
+    Get Customer Identity-02：查询不存在的customerId    1    ${EMPTY}    0
+
+*** Keywords ***
+Get_Customer_Identity_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer identity    ${customerId}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

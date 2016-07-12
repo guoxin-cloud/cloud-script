@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     判断某用户是否有某些角色其中之一
+Resource          ../../RESOURCE/rbac_subject_api_resource.txt
+
+*** Test Cases ***
+Has Role Codes
+    [Tags]    yuqing    hasrolecodes    subject
+    [Template]    Has_Role_Codes_Temp
+    Has Role Codes-01：全部正确的参数    ${EMPTY}    1    1    1
+
+*** Keywords ***
+Has_Role_Codes_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userId}    ${roleCodes}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    has role codes    ${cookie}    ${userId}    ${roleCodes}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

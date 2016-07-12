@@ -1,0 +1,20 @@
+*** Settings ***
+Documentation     查找组织结构的集合（by id）
+Resource          ../../RESOURCE/organ_organization_api_resource.txt
+
+*** Test Cases ***
+Fetch Node By Id
+    [Tags]    yuqing    fetchid    organ
+    [Template]    Fetch_Node_By_Id_Temp
+    Fetch Node By Id-01：全部正确的参数    ${EMPTY}    2E0EAC3457C6438E88FED3D04F1F2E07    1
+    Fetch Node By Id-02：查询不存在    ${EMPTY}    1    0
+
+*** Keywords ***
+Fetch_Node_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch node by id    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
+    ${resp_id}    Convert To List    ${resp[2]}
+    Run Keyword If    ${success}==0    Set Test Message    fail
+    Run Keyword Unless    ${resp_id}!=[]    Should Contain    ${resp[2]}    ${id}

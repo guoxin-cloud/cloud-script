@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     逻辑删除单条播间主题（by id）
+Resource          ../../RESOURCE/vip_roomtopic_api_resource.txt
+
+*** Test Cases ***
+Delete Room Topic
+    [Tags]    yuqing    deleteroomtopic    roomtopic
+    [Template]    Delete_Room_Topic_Temp
+    Delete Room Topic-01：全部正确的参数    ${EMPTY}    1    1
+    Delete Room Topic-02：删除不存在    ${EMPTY}    1    1
+
+*** Keywords ***
+Delete_Room_Topic_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete room topic    ${cookie}    ${id}
+    should be equal as strings    ${resp[1]}    ${success}

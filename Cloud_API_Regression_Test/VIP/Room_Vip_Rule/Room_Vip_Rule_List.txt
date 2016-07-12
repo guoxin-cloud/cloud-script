@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     获取所有播间规则列表（list）
+Resource          ../../RESOURCE/vip_roomviprule_api_resource.txt
+
+*** Test Cases ***
+Room Vip Rule List
+    [Tags]    yuqing    roomviprulelist    roomtopic
+    [Template]    Room_Vip_Rule_List_Temp
+    Room Vip Rule List-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Room_Vip_Rule_List_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    room vip rule list    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

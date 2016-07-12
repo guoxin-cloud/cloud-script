@@ -1,0 +1,16 @@
+*** Settings ***
+Documentation     查找组织结构的集合（page）
+Resource          ../../RESOURCE/organ_organization_api_resource.txt
+
+*** Test Cases ***
+Fetch Node List
+    [Tags]    yuqing    listnode    organ
+    [Template]    Fetch_Node_List_Temp
+    Fetch Node List-01：全部正确的参数    ${EMPTY}    1
+
+*** Keywords ***
+Fetch_Node_List_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    fetch node list    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取用户的客户经理（by id）
+Resource          ../../RESOURCE/customer-platform_customermanager_api_resource.txt
+
+*** Test Cases ***
+Get CustomerManager By Id
+    [Tags]    yuqing    getmanagerbyid    customermanager
+    [Template]    Get_CustomerManager_By_Id_Temp
+    Get CustomerManager By Id-01：全部正确的参数    ${EMPTY}    1    1
+    Get CustomerManager By Id-02：查询不存在    ${EMPTY}    11111    0
+
+*** Keywords ***
+Get_CustomerManager_By_Id_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customermanager by id    ${id}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     获取用户联系信息
+Resource          ../../RESOURCE/customer_customercontact_api_resource.txt
+
+*** Test Cases ***
+Get Customer Contact
+    [Tags]    yuqing    getcustomercontact    customercontact
+    [Template]    Get_Customer_Contact_Temp
+    Get Customer Contact-01：全部正确的参数    D9561E1C45AE45E5A1B1BB9D03A7D916    ${EMPTY}    1
+    Get Customer Contact-02：查询不存在的customerId    1    ${EMPTY}    0
+
+*** Keywords ***
+Get_Customer_Contact_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer contact    ${customerId}    ${cookie}
+    should be equal as strings    ${resp[1]}    ${success}

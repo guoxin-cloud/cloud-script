@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation     更新用户身份验证信息（json）
+Resource          ../../RESOURCE/customer_customeridentity_api_resource.txt
+
+*** Test Cases ***
+Update Customer Identity
+    [Tags]    yuqing    updatecustomeridentity    customeridentity
+    [Template]    Update_Customer_Identity_Temp
+    Update Customer Identity-01：全部正确的参数    D9561E1C45AE45E5A1B1BB9D03A7D916    ${EMPTY}    D9561E1C45AE45E5A1B1BB9D03A7D916    1    410305198402204526    1
+
+*** Keywords ***
+Update_Customer_Identity_Temp
+    [Arguments]    ${testdata_info}    ${customerId}    ${cookie}    ${customerId}    ${checker}    ${idNumber}
+    ...    ${success}
+    log    ${testdata_info}
+    ${resp}=    update customer identity    ${customerId}    ${cookie}    ${customerId}    ${checker}    ${idNumber}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
