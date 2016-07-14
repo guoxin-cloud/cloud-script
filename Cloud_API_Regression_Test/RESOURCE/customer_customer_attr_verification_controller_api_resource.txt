@@ -1,0 +1,64 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+get customer attr_verification
+    [Arguments]    ${cookie}    ${verifyId}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${GET_CUSTOMER_ATTR_VERIFICATION_URL}/${verifyId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customer attr_verifications
+    [Arguments]    ${cookie}    ${customerId}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${GET_CUSTOMER_ATTR_VERIFICATIONS_URL}/${customerId}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+send verification code
+    [Arguments]    ${cookie}    ${verType}    ${codeReceiver}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${SEND_VERIFICATION_CODE_URL}    ${cookie}    verType    ${verType}
+    ...    codeReceiver    ${codeReceiver}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+update customer attr_verification
+    [Arguments]    ${cookie}    ${id}    ${employeeId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${UPDATE_CUSTOMER_ATTR_VERIFICATION_URL}/${id}    ${cookie}    employeeId    ${employeeId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+verify email active
+    [Arguments]    ${cookie}    ${sign}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${VERIFY_EMAIL_ACTIVE_URL}    ${cookie}    sign    ${sign}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+verify email forget pwd
+    [Arguments]    ${cookie}    ${sign}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${VERIFY_EMAIL_FORGET_PWD_URL}    ${cookie}    sign    ${sign}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+verify email register
+    [Arguments]    ${cookie}    ${sign}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${VERIFY_EMAIL_REGISTER_URL}    ${cookie}    ${sign}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+delete customer attr verification
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${DELETE_CUSTOMER_ATTR_VERIFICATION_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

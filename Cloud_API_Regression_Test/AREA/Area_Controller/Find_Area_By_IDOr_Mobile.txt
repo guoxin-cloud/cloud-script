@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/area_area_api_resource.txt
+
+*** Test Cases ***
+Find Area By IDOr Mobile
+    [Documentation]    增加账户信息
+    [Tags]    find Area By IDOr Mobile
+    [Template]    Find_Area_By_IDOr_Mobile_Temp
+    验证正确的信息：    ${EMPTY}    18300010001    1
+    验证错误的信息：    ${EMPTY}    18300    0
+
+*** Keywords ***
+Find_Area_By_IDOr_Mobile_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${value}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    find area by iDOr mobile    ${cookie}    ${value}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

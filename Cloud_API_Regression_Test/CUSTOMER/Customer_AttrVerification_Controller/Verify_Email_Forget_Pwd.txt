@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Verify Email Forget Pwd
+    [Documentation]    忘记密码验证邮箱
+    [Tags]    verifyEmailForgetpwd
+    [Template]    Verify_Email_Forget_Pwd_Temp
+    添加正确的账户信息：    ${EMPTY}    iVncsQILWV1IOS/SWxnmwDtJjG9a3zerMpB//ygBIgQ=    1
+    对同一验证码进行再次验证：    ${EMPTY}    iVncsQILWV1IOS/SWxnmwDtJjG9a3zerMpB//ygBIgQ=    0
+
+*** Keywords ***
+Verify_Email_Forget_Pwd_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${sign}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    verify email forget pwd    ${cookie}    ${sign}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

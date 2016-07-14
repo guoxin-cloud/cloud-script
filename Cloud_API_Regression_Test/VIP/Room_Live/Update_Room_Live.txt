@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip__room_live_api_resource.txt
+
+*** Test Cases ***
+Update Room Live
+    [Documentation]    创建单条播间期，支持POST方法
+    [Tags]    Update Room Live
+    [Template]    Update_Room_Live_Temp
+    01添加正确的账户信息    ${EMPTY}    333    23    5    123    ${EMPTY}
+    ...    dfdsfsdf    1
+
+*** Keywords ***
+Update_Room_Live_Temp
+    [Arguments]    ${testdata_info}    ${cookie_create}    ${content_create}    ${periodId_create}    ${roomId_create}    ${userId_create}
+    ...    ${cookie}    ${content}    ${success}
+    Log    ${testdata_info}
+    ${resp_create}=    create room live    ${cookie_create}    ${content_create}    ${periodId_create}    ${roomId_create}    ${userId_create}
+    ${status}    ${id}=    Run Keyword And Ignore Error    Set Variable    ${resp_create[2]}
+    ${resp}=    update room live    ${cookie}    ${content}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Update Account By Value
+    [Documentation]    更新账户信息
+    [Tags]    Update Account By Value
+    [Template]    Update_Account_By _value_Temp
+    更新已经存在的账户：    ${EMPTY}    0001    1
+
+*** Keywords ***
+Update_Account_By_Value_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userAccounts}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update_account_by_value    ${cookie}    ${userAccounts}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

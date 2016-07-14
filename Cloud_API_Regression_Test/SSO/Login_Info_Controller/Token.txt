@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso_login_info_api_resource.txt
+
+*** Test Cases ***
+Token
+    [Documentation]    增加账户信息
+    [Tags]    Token
+    [Template]    Token_Temp
+    添加正确的账户信息：    ${EMPTY}    18200010002    1
+
+*** Keywords ***
+Token_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${token}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    token    ${cookie}    ${token}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

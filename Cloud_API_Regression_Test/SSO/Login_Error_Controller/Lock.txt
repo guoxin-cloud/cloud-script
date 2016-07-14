@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso__login_error_api_resource.txt
+
+*** Test Cases ***
+Lock
+    [Documentation]    根据登录账号锁定账号
+    [Tags]    add
+    [Template]    Lock_Temp
+    添加正确的账户信息：    ${EMPTY}    18200010009    192.168.1.12    1
+
+*** Keywords ***
+Lock_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${ipAddress}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    lock    ${cookie}    ${account}    ${ipAddress}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_period_api_resource.txt
+
+*** Test Cases ***
+Live Room Period
+    [Documentation]    增加账户信息
+    [Tags]    Live Room Period
+    [Template]    Live_Room_Period_Temp
+    添加正确的账户信息：    ${EMPTY}    2    1
+
+*** Keywords ***
+Live_Room_Period_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    Live Room Period    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

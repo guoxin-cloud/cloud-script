@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_period_api_resource.txt
+
+*** Test Cases ***
+Delete Room Period
+    [Documentation]    增加账户信息
+    [Tags]    Delete Room Period
+    [Template]    Delete_Room_Period_Temp
+    添加正确的账户信息：    ${EMPTY}    2    1
+
+*** Keywords ***
+Delete_Room_Period_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    Delete Room Period    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

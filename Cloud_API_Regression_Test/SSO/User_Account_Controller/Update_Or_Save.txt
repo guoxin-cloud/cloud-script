@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+update_or_save
+    [Documentation]    更新账户信息
+    [Tags]    Update Or Save
+    [Template]    Update_Or_Save_Temp
+    更新已经存在的账户：    ${EMPTY}    18200010004    111    1
+
+*** Keywords ***
+Update_Or_Save_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${userId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update_or_save    ${cookie}    ${account}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

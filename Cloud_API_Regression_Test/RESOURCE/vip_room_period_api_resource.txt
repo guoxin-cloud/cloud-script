@@ -1,0 +1,43 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create Room Period
+    [Arguments]    ${cookie}    ${createdTime}    ${direction}    ${endTime}    ${id}    ${isDeleted}
+    ...    ${prestige}    ${roomId}    ${startTime}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${CREATE_ROOM_PERIOD_URL}    ${cookie}    createdTime    ${createdTime}
+    ...    direction    ${direction}    endTime    ${endTime}    id    ${id}
+    ...    isDeleted    ${isDeleted}    prestige    ${prestige}    roomId    ${roomId}
+    ...    startTime    ${startTime}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update Room Period
+    [Arguments]    ${cookie}    ${createdTime}    ${direction}    ${endTime}    ${id}    ${isDeleted}
+    ...    ${prestige}    ${roomId}    ${startTime}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${UPDATE_ROOM_PERIOD_URL}    ${cookie}    createdTime    ${createdTime}
+    ...    direction    ${direction}    endTime    ${endTime}    id    ${id}
+    ...    isDeleted    ${isDeleted}    prestige    ${prestige}    roomId    ${roomId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete Room Period
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${DELETE_ROOM_PERIOD_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+live Room Period
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${LIVE__ROOM_PERIOD_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+fetch Room Period
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${FETCH__ROOM_PERIOD_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}

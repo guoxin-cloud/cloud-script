@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso_login_info_api_resource.txt
+
+*** Test Cases ***
+Login
+    [Documentation]    增加账户信息
+    [Tags]    Login
+    [Template]    Login_Temp
+    添加正确的账户信息：    ${EMPTY}    18200010002    123456    192.168.1.129    1
+
+*** Keywords ***
+Login_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${password}    ${ip}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    login    ${cookie}    ${account}    ${password}    ${ip}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

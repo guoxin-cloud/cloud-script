@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Query Account
+    [Documentation]    更新账户信息
+    [Tags]    Query_Account
+    [Template]    Query_Account_Temp
+    更新已经存在的账户：    ${EMPTY}    18100010001    1
+
+*** Keywords ***
+Query_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    query_account    ${cookie}    ${account}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,36 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add customer resource
+    [Arguments]    ${cookie}    ${resCatalog}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${ADD_CUSTOMER_RESOURCE_URL}    ${cookie}    resCatalog    ${resCatalog}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update customer resource
+    [Arguments]    ${cookie}    ${id}    ${resCatalog}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${UPDATE_CUSTOMER_IDENTITY_URL}/${id}    ${cookie}    resCatalog    ${resCatalog}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+delete customer resource
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${DELETE_CUSTOMER_RESOURCE_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+get customer resource
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${GET_CUSTOMER_RESOURCE_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+get customer resources
+    [Arguments]    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${GET_CUSTOMER_RESOURCES_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}

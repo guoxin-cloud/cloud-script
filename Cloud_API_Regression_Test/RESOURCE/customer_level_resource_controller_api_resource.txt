@@ -1,0 +1,28 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add customer level resource
+    [Arguments]    ${cookie}    ${levelId}    ${resId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${ADD_CUSTOMER_LEVEL_RESOURCES_URL}    ${cookie}    levelId    ${levelId}
+    ...    resId    ${resId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+update customer level resource
+    [Arguments]    ${cookie}    ${id}    ${resId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${UPDATE_CUSTOMER_LEVEL_RESOURCES_URL}/${id}    ${cookie}    resId    ${resId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete customer level resource
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${CUSTOMER_PORT}    ${DELETE_CUSTOMER_LEVEL_RESOURCES_URL}/${id}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

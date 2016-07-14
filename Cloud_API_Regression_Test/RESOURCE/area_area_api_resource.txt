@@ -1,0 +1,35 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+find area by area code
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${AREA_PORT}    ${FIND_AREA_BY_AREA_CODE_URL}/${value}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+find area by iDOr mobile
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${AREA_PORT}    ${FIND_AREA_BY_IDOR_MOBILE_URL}/${value}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+find area by post code
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${AREA_PORT}    ${FIND_AREA_BY_POST_CODE_URL}/${value}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+valifateld card
+    [Arguments]    ${cookie}    ${value}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${AREA_PORT}    ${VALIFATELD_CARD_URL}/${value}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

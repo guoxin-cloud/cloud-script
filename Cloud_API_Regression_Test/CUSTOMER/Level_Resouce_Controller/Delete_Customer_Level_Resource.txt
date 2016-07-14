@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_level_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Delete Customer Level Resource
+    [Documentation]    删除用户登录资源
+    [Tags]    Delete Customer Level Resource
+    [Template]    Delete_Customer_Level_Resource_Temp
+    删除已经存在的用户信息：    ${EMPTY}    8    1
+    对同一数据进行多次删除：    ${EMPTY}    8    0
+
+*** Keywords ***
+Delete_Customer_Level_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete customer level resource    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

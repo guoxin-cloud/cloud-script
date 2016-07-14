@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Get Customer Resources
+    [Documentation]    返回用户资源列表
+    [Tags]    Get Customer Resources
+    [Template]    Get Customer Resources_Temp
+    查询存在数据：    ${EMPTY}    1
+
+*** Keywords ***
+Get Customer Resources_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer resources    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_quick_answer_api_resource.txt
+
+*** Test Cases ***
+Delete Room Quick Answer
+    [Documentation]    创建单条播间问题
+    [Tags]    Delete Room Quick Answer
+    [Template]    Delete_Room_Quick_Answer_Temp
+    添加正确的账户信息：    ${EMPTY}    13    1
+
+*** Keywords ***
+Delete_Room_Quick_Answer_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete room quick answer    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

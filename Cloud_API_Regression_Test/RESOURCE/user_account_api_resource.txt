@@ -1,0 +1,60 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+add_account
+    [Arguments]    ${cookie}    ${userId}    ${account}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${ADD_ACCOUNT_URL}    ${cookie}    userId    ${userId}
+    ...    account    ${account}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete_account
+    [Arguments]    ${cookie}    ${account}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${DELETE_ACCOUNT_URL}    ${cookie}    account    ${account}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+delete_userid
+    [Arguments]    ${cookie}    ${userId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${DELETE_USERID_URL}    ${cookie}    userId    ${userId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}    ${message}
+
+update_account
+    [Arguments]    ${cookie}    ${newAccount}    ${account}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${UPDATE_ACCOUNT_URL}    ${cookie}    newAccount    ${newAccount}
+    ...    account    ${account}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}    ${message}
+
+update_or_save
+    [Arguments]    ${cookie}    ${account}    ${userId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${UPDATE_URL}    ${cookie}    account    ${account}
+    ...    userId    ${userId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+query_account
+    [Arguments]    ${cookie}    ${account}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${QUERY_ACCOUNT_URL}    ${cookie}    account    ${account}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    [Return]    ${resp}    ${success}
+
+update_account_by_value
+    [Arguments]    ${cookie}    ${newAccount}    ${userAccounts}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${UPDATE_URL}    ${cookie}    userAccounts    ${userAccounts}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}    ${message}
+
+update_userid
+    [Arguments]    ${cookie}    ${account}    ${userId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${UPDATE_USERID_URL}    ${cookie}    account    ${account}
+    ...    userId    ${userId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}    ${message}

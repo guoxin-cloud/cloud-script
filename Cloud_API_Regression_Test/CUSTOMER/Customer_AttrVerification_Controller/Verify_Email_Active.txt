@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Verify Email Active
+    [Documentation]    邮件激活
+    [Tags]    verifyEmailActive
+    [Template]    Verify_Email_Active_Temp
+    添加正确的账户信息：    ${EMPTY}    xAgtqTKteYF%2BX1I%2Feq9%2F2blLrkHL7FMeHB%2B5Va1PYgU%3D    1
+    对同一验证码进行多次验证：    ${EMPTY}    xAgtqTKteYF%2BX1I%2Feq9%2F2blLrkHL7FMeHB%2B5Va1PYgU%3D    0
+
+*** Keywords ***
+Verify_Email_Active_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${sign}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    verify email active    ${cookie}    ${sign}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

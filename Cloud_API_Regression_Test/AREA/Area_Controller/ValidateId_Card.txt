@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/area_area_api_resource.txt
+
+*** Test Cases ***
+Valifateld Card
+    [Documentation]    增加账户信息
+    [Tags]    Valifateld Card
+    [Template]    Valifateld_Card_Temp
+    验证正确的信息：    ${EMPTY}    653201198201010051    1
+    验证错误的信息：    ${EMPTY}    65320119820    0
+
+*** Keywords ***
+Valifateld_Card_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${value}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    valifateld card    ${cookie}    ${value}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

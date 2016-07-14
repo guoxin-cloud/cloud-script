@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip__room_live_api_resource.txt
+
+*** Test Cases ***
+Page Room Live
+    [Documentation]    创建单条播间期，支持POST方法
+    [Tags]    Page Room Live
+    [Template]    Page_Room_Live_Temp
+    添加正确的账户信息：    ${EMPTY}    1
+
+*** Keywords ***
+Page_Room_Live_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    Page Room Live    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

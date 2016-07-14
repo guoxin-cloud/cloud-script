@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Update Userid
+    [Documentation]    更新账户信息
+    [Tags]    Update_Userid
+    [Template]    Update_Userid_Temp
+    更新已经存在的账户：    ${EMPTY}    18200010004    111    1
+
+*** Keywords ***
+Update_Userid_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${userId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update_userid    ${cookie}    ${account}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Add Customer Resource
+    [Documentation]    增加账户信息
+    [Tags]    Add Customer Resource
+    [Template]    Add_Customer_Resource_Temp
+    添加正确的账户信息：    ${EMPTY}    11    1
+    添加重复数据：    ${EMPTY}    11    1
+
+*** Keywords ***
+Add_Customer_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${resCatalog}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    add customer resource    ${cookie}    ${resCatalog}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

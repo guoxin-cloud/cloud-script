@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Delete Customer Attr Verification
+    [Documentation]    删除信息
+    [Tags]    Delete Customer Attr Verification
+    [Template]    Delete_Customer_Attr_Verification_Temp
+    删除存在的信息：    ${EMPTY}    321    1
+    删除已经删除过的信息：    ${EMPTY}    321    1
+
+*** Keywords ***
+Delete_Customer_Attr_Verification_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete customer attr verification    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

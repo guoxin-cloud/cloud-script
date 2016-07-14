@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Send Verification Code
+    [Documentation]    发送验证码
+    [Tags]    send Verification Code
+    [Template]    Send_Verification_Code_Temp
+    添加正确的手机号信息：    ${EMPTY}    mobile    18200010001    1
+    统一手机号重复性发信息：    ${EMPTY}    mobile    18200010001    1
+
+*** Keywords ***
+Send_Verification_Code_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${verType}    ${codeReceiver}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    send verification code    ${cookie}    ${verType}    ${codeReceiver}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

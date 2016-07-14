@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Update Customer Attr Verification
+    [Documentation]    用户属性审核
+    [Tags]    Update    Customer Attr Verification
+    [Template]    Update_Customer_Attr_Verification_Temp
+    添加正确的账户信息：    ${EMPTY}    408    3    1
+    添加正确的账户信息：    ${EMPTY}    408    3    1
+
+*** Keywords ***
+Update_Customer_Attr_Verification_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${employeeId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update customer attr_verification    ${cookie}    ${id}    ${employeeId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

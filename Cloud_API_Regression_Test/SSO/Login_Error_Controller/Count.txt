@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso__login_error_api_resource.txt
+
+*** Test Cases ***
+Count
+    [Documentation]    增加账户信息
+    [Tags]    Count
+    [Template]    Count_Temp
+    添加正确的账户信息：    ${EMPTY}    1234567    192.168.100.129    1
+
+*** Keywords ***
+Count_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${account}    ${ipAddress}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    count    ${cookie}    ${account}    ${ipAddress}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

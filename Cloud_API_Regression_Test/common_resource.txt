@@ -71,6 +71,7 @@ ${DBPASSWORD}     123456    # 数据库密码
 ${DBHOST}         101.200.184.125    # 数据库ip
 ${DBPORT}         3306    # 数据库端口
 >>>>>>> d2a9d51e9fb2e2b4aed7cf35d93188a12c46f2ae
+<<<<<<< yuqing
 ${EMPLOYEE_PORT}    10110    # EMPLOYEE端口号
 ${ADD_EMPLOYEE_BASIC_INFO_URI}    basic/add    # EMPLOYEE-新增用户基本信息
 ${ORGAN_PORT}     10070    # ORGAN端口号
@@ -156,3 +157,69 @@ ${CUSTOMER_GET_CUSMANAGER_BY_EMPLOYEE_URI}    manager/employee    # CUSTOMER_PLA
 ${CUSTOMER_GET_CUSMANAGER_BY_CUSTOMERID_URI}    manager/customer    # CUSTOMER_PLATFORM-获取用户的客户经理（by customerid）
 ${CUSTOMER_GET_CUSMANAGER_BY_ID_URI}    account    # CUSTOMER_PLATFORM-获取用户的客户经理（by id）
 ${CUSTOMER_CANCEL_CUSTOMER_MANAGER_URI}    manager/cancel    # CUSTOMER_PLATFORM-删除用户客户经理
+>>>>>>> yuqing
+>>>>>>> jiajunying
+${USER_ACCOUNT_PORT}    10020    # SSO
+${ADD_ACCOUNT_URL}    /account/add    #增加账号信息UserAccount    SSO
+${CREATE_ACCOUNT_URL}    /account/create    #根据用户主键id增加账号信息UserAccount    SSO
+${DELETE_ACCOUNT_URL}    account/del    #删除账号信息UserAccount    SSO
+${DELETE_USERID_URL}    /account/delete    #根据用户主键id删除账号信息UserAccount    SSO
+${UPDATE_ACCOUNT_URL}    /account/update-account    #根据account更新账户UserAccount    SSO
+${UPDATE_OR_SAVE_URL}    /account/update-or-save    #根据account更新userId信息(account不存在的时候增加一条记录)UserAccount    SSO
+${UPDATE_USERID_URL}    /account/update-userId    #根据account更新userId信息(account不存在的时候不增加) UserAccount    SSO
+${QUERY_ACCOUNT_URL}    /account/fetch    #查询账户信息UserAccount    SSO
+${UPDATE_URL}     /account/update    #更新账户信息UserAccount    SSO
+${AREA_PORT}      10090    # area
+${FIND_AREA_BY_AREA_CODE_URL}    /code    #通过区号获取对应的归属地    AREA
+${FIND_AREA_BY_POST_CODE_URL}    /postcode    #通过邮政编码获取对应的归属地    AREA
+${VALIFATELD_CARD_URL}    /idcard    #验证身份证有效性    AREA
+${FIND_AREA_BY_IDOR_MOBILE_URL}    /    #获取手机/身份证的归属地    AREA
+${LOCK_URL}       /error/lock    #根据登录账号锁定账号,如果账号不存在错误记录,则新增一条信息,并且把错误次数设置成999次LOCK LoginErrorController    SSO
+${UNLOCK_URL}     /error/unlock    #根据账号和ip地址解锁账号LoginErrorController    SSO
+${COUNT_URL}      /error/count    #验证身份证的有效性LoginErrorController    AREA
+${ADD_PASSWORD_URL}    /password/add    #添加账号密码 UserPasswordController    SSO
+${DEL_PASSWORD_URL}    /password/del    #删除账号信息UserPasswordController    SSO
+${FETCH_PASSWORD_URL}    /password/fetch    #查询密码信息UserPasswordController    SSO
+${RESET_PASSWORD_URL}    /password/reset    #查询密码信息UserPasswordController    SSO
+${UPDATE_PASSWORD_URL}    /password/update    #更新账号密码信息UserPasswordController    SSO
+${LOGIN_URL}      /login    #登录接口LoginInfoController    SSO
+${LOGOUT_URL}     /logout    #删除token LoginInfoController    SSO
+${TOKEN_URL}      /token    #验证token是否存在,存在的情况下,返回对应的用户信息LoginInfoController    SSO
+${OATUTH_LOGIN_URL}    /oauth-login    #第三方授权登录接口LoginInfoController    SSO
+${VIP_PORT}       10080    # vip
+${CREATE_ROOM_QUICK_ANSWER_URL}    /room-quick-answer/add    #创建单条快速回答，支持POST方法RoomQuickAnswerController    VIP
+${DELETE_ROOM_QUICK_ANSWER_URL}    /room-quick-answer/delete    #根据id删除单条快速回答，支持POST方法RoomQuickAnswerController    VIP
+${PAGE_ROOM_QUICK_ANSWER_URL}    /room-quick-answer/page    #获取快速回答的分页数据列表，支持GET方法RoomQuickAnswerController    VIP
+${FATCH_ROOM_QUICK_ANSWER_URL}    /room-quick-answer/fetch    #根据id获取单条快速回答，支持GET方法RoomQuickAnswerController    VIP
+${UPDATE_ROOM_QUICK_ANSWER_URL}    /room-quick-answer/update    #更新单条快速回答，支持POST方法，支持POST方法RoomQuickAnswerController    VIP
+${CREATE_ROOM_QUESTION_URL}    /room-question/add    #创建单条播间问题，支持POST方法RoomQuestionController    VIP
+${UPDATE_ROOM_QUESTION_URL}    /room-question/update    #更新单条播间问题，支持POST方法RoomQuestionController    VIP
+${DELETE_ROOM_QUESTION_URL}    /room-question/delete    #根据id逻辑删除单条播间问题，支持POST方法RoomQuestionController    VIP
+${PAGE_ROOM_QUESTION_URL}    /room-question/page    #获取播间问题的分页列表数据,支持GET方法RoomQuestionController    VIP
+${CREATE_ROOM_PERIOD_URL}    /room-period/add    #创建单条播间期，支持POST方法RoomPeriodController    VIP
+${DELETE_ROOM_PERIOD_URL}    /room-period/delete    #根据id删除单条播间期，支持POST方法RoomPeriodController    VIP
+${FETCH_ROOM_PERIOD_URL}    /room-period/fetch    #根据id获取单条播间期，支持GET方法RoomPeriodController    VIP
+${UPDATE_ROOM_PERIOD_URL}    /room-period/update    #修改单条播间期，支持POST方法RoomPeriodController    VIP
+${LIVE_ROOM_PERIOD_URL}    /room-period/live    #验证身份证的有效性RoomPeriodController    VIP
+${CREATE_ROOM_LIVE_URL}    /room-live/add    #创建单条播更新单条播间直播，支持POST方法RoomLiveController    VIP
+${UPDATE_ROOM_LIVE_URL}    /room-live/update    #创建单条播间直播，支持POST方法RoomLiveController    VIP
+${DELETE_ROOM_LIVE_URL}    /room-live/delete    #根据id逻辑删除单条播间直播，支持POST方法RoomLiveController    VIP
+${PAGE_ROOM_LIVE_URL}    /room-live/page    #获取播间直播的分页列表数据,支持GET方法，支持POST方法RoomLiveController    VIP
+${CUSTOMER_PORT}    10100    # customer
+${ADD_CUSTOMER_RESOURCE_URL}    /resource/add    #添加用户资源ResourceController    CUSTOMER
+${UPDATE_CUSTOMER_IDENTITY_URL}    /resource/update    #更新用户资源ResourceController    CUSTOMER
+${DELETE_CUSTOMER_RESOURCE_URL}    /resource/delete    #删除用户资源ResourceController    CUSTOMER
+${GET_CUSTOMER_RESOURCE_URL}    /resource    #返回用户资源ResourceController    CUSTOMER
+${GET_CUSTOMER_RESOURCES_URL}    /resource    #返回用户资源列表ResourceController    CUSTOMER
+${ADD_CUSTOMER_LEVEL_RESOURCES_URL}    /level/resource/add    #添加用户等级资源关系LevelResourceController    CUSTOMER
+${UPDATE_CUSTOMER_LEVEL_RESOURCES_URL}    /level/resource/update    #更新用户等级资源关系LevelResourceController    CUSTOMER
+${DELETE_CUSTOMER_LEVEL_RESOURCES_URL}    /level/resource/delete    #删除用户等级资源关系LevelResourceController    CUSTOMER
+${GET_CUSTOMER_ATTR_VERIFICATION_URL}    /attr/    #查询用户属性审核数据CustomerAttrVerificationController    CUSTOMER
+${GET_CUSTOMER_ATTR_VERIFICATIONS_URL}    /attr/customer    #查询用户属性审核数据列表CustomerAttrVerificationController    CUSTOMER
+${UPDATE_CUSTOMER_ATTR_VERIFICATION_URL}    /attr/succeed    #用户属性审核CustomerAttrVerificationController    CUSTOMER
+${DELETE_CUSTOMER_ATTR_VERIFICATION_URL}    /attr/delete    #删除审核数据CustomerAttrVerificationController    CUSTOMER
+${SEND_VERIFICATION_CODE_URL}    /attr/send-ver-code    #发送验证码CustomerAttrVerificationController    CUSTOMER
+${VERIFY_EMAIL_REGISTER_URL}    /attr/email-register    #邮件注册激活CustomerAttrVerificationController    CUSTOMER
+${VERIFY_EMAIL_ACTIVE_URL}    /attr/email-active    #邮件激活CustomerAttrVerificationController    CUSTOMER
+${VERIFY_EMAIL_FORGET_PWD_URL}    /attr/email-forgetpwd    #忘记密码验证邮箱CustomerAttrVerificationController    CUSTOMER
+>>>>>>> jiajunying

@@ -1,0 +1,33 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create room live
+    [Arguments]    ${cookie}    ${content}    ${periodId}    ${roomId}    ${userId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${CREATE_ROOM_LIVE_URL}    ${cookie}    content    ${content}
+    ...    periodId    ${periodId}    roomId    ${roomId}    userId    ${userId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${status}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}    ${value}
+
+update room live
+    [Arguments]    ${cookie}    ${content}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${UPDATE_ROOM_LIVE_URL}    ${cookie}    content    ${content}
+    ...    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    comment    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+delete room live
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${DELETE_ROOM_LIVE_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+page room live
+    [Arguments]    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${PAGE__ROOM_LIVE_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    # comment    ${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}

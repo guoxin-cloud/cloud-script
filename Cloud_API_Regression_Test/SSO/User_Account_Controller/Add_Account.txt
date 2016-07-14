@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Add Account
+    [Documentation]    增加账户信息
+    [Tags]    add
+    [Template]    Add_Account_Temp
+    添加正确的账户信息：    ${EMPTY}    111    18200010001    1
+    添加中文账户信息：    ${EMPTY}    中文    中文    1
+
+*** Keywords ***
+Add_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userId}    ${account}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    add_account    ${cookie}    ${userId}    ${account}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

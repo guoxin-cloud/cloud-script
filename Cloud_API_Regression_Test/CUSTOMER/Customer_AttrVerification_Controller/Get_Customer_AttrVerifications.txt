@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Get Customer Attr Verifications
+    [Documentation]    查询信息列表
+    [Tags]    Get Customer Attr Verifications
+    [Template]    Get_Customer_Attr_Verifications_Temp
+    查询信息：    ${EMPTY}    038649DD78504D0F91094492A6811A1D    1
+    查询不存在的信息：    ${EMPTY}    038649DD78504D0F    1
+
+*** Keywords ***
+Get_Customer_Attr_Verifications_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${customerId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer attr_verifications    ${cookie}    ${customerId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

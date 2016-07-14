@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Get Customer Attr Verification
+    [Documentation]    查询信息
+    [Tags]    Get Customer Attr Verification
+    [Template]    Get_Customer_Attr_Verification_Temp
+    查询存在的信息：    ${EMPTY}    320    1
+    查询不存在的信息：    ${EMPTY}    321    1
+
+*** Keywords ***
+Get_Customer_Attr_Verification_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${verifyId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    get customer attr_verification    ${cookie}    ${verifyId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

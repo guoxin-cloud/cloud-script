@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_question_api_resource.txt
+
+*** Test Cases ***
+Page Room Question
+    [Documentation]    获取播间问题的分页列表数据,支持GET方法
+    [Tags]    Page Room Question
+    [Template]    Page_Room_Question_Temp
+    添加正确的账户信息：    ${EMPTY}    1
+
+*** Keywords ***
+Page_Room_Question_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    Page Room Question    ${cookie}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

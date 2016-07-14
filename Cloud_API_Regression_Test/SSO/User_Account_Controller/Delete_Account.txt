@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Delete Account
+    [Documentation]    删除账户信息
+    [Tags]    delete account
+    [Template]    Delete_Account_Temp
+    正确删除已经存在账户：    ${EMPTY}    111    18200010001    ${EMPTY}    18200010001    1
+
+*** Keywords ***
+Delete_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie_create}    ${userId_create}    ${account_create}    ${cookie}    ${account}
+    ...    ${success}
+    Log    ${testdata_info}
+    ${resp_create}=    Add Account    ${cookie_create}    ${userId_create}    ${account_create}
+    ${status}    ${id}=    Run Keyword And Ignore Error    Set Variable    ${resp_create[2]}
+    ${resp}=    delete_account    ${cookie}    ${account}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

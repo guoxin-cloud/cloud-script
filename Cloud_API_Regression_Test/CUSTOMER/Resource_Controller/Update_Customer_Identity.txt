@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Update Customer Resource
+    [Documentation]    增加账户信息
+    [Tags]    Update Customer Resource
+    [Template]    Update_Customer_Resource_Temp
+    添加正确的账户信息：    ${EMPTY}    5    6    1
+
+*** Keywords ***
+Update_Customer_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${resCatalog}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update customer resource    ${cookie}    ${resCatalog}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

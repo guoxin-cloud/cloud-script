@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/sso_login_info_api_resource.txt
+
+*** Test Cases ***
+Oauth Login
+    [Documentation]    增加账户信息
+    [Tags]    Oauth Login
+    [Template]    Oauth_Login_Temp
+    添加正确的账户信息：    ${EMPTY}    1    1    1
+
+*** Keywords ***
+Oauth_Login_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${openId}    ${userId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    oauth login    ${cookie}    ${openId}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

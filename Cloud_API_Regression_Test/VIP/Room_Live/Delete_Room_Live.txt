@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip__room_live_api_resource.txt
+
+*** Test Cases ***
+Delete Room Live
+    [Documentation]    创建单条播间期，支持POST方法
+    [Tags]    Delete Room Live
+    [Template]    Delete_Room_Live_Temp
+    添加正确的账户信息：    ${EMPTY}    333    23    5    123    ${EMPTY}
+    ...    1
+
+*** Keywords ***
+Delete_Room_Live_Temp
+    [Arguments]    ${testdata_info}    ${cookie_create}    ${content_create}    ${periodId_create}    ${roomId_create}    ${userId_create}
+    ...    ${cookie}    ${success}
+    Log    ${testdata_info}
+    ${resp_create}=    create room live    ${cookie_create}    ${content_create}    ${periodId_create}    ${roomId_create}    ${userId_create}
+    ${status}    ${id}=    Run Keyword And Ignore Error    Set Variable    ${resp_create[2]}
+    ${resp}=    Delete Room Live    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_level_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Add Customer Level Resource
+    [Documentation]    添加用户等级资源关系
+    [Tags]    Add Customer Level Resource
+    [Template]    Add_Customer_Level_Resource_Temp
+    添加正确的用户信息：    ${EMPTY}    1    18    1
+    对同一账户信息进行添加：    ${EMPTY}    1    18    1
+
+*** Keywords ***
+Add_Customer_Level_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${levelId}    ${resId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    add customer level resource    ${cookie}    ${levelId}    ${resId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

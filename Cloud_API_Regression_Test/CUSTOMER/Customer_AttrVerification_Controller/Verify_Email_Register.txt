@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_customer_attr_verification_controller_api_resource.txt
+
+*** Test Cases ***
+Verify Email Register
+    [Documentation]    邮件注册激活
+    [Tags]    Verify Email Register
+    [Template]    Verify_Email_Register_Temp
+    添加正确的信息：    ${EMPTY}    iVncsQILWV1IOS/SWxnmwDtJjG9a3zerMpB//ygBIgQ=    1
+    对同一验证码再次进行激活：    ${EMPTY}    iVncsQILWV1IOS/SWxnmwDtJjG9a3zerMpB//ygBIgQ=    0
+
+*** Keywords ***
+Verify_Email_Register_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${sign}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    verify email register    ${cookie}    ${sign}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

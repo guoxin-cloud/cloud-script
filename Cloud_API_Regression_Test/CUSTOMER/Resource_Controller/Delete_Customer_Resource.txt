@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Delete Customer Resource
+    [Documentation]    删除账户信息
+    [Tags]
+    [Template]    Delete_Customer_Resource_Temp
+    删除正确的账户信息：    ${EMPTY}    52    1
+    对同一账户进行多次删除：    ${EMPTY}    52    0
+
+*** Keywords ***
+Delete_Customer_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete customer resource    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

@@ -1,0 +1,2 @@
+*** Settings ***
+Resource          ../../user_account_api_resource.txt

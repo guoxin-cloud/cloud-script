@@ -1,0 +1,30 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+lock
+    [Arguments]    ${cookie}    ${account}    ${ipAddress}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${LOCK_URL}    ${cookie}    account    ${account}
+    ...    ipAddress    ${ipAddress}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+unlock
+    [Arguments]    ${cookie}    ${account}    ${ipAddress}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${UNLOCK_URL}    ${cookie}    account    ${account}
+    ...    ipAddress    ${ipAddress}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+count
+    [Arguments]    ${cookie}    ${account}    ${ipAddress}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${USER_ACCOUNT_PORT}    ${COUNT_URL}    ${cookie}    account    ${account}
+    ...    ipAddress    ${ipAddress}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}

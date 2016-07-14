@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Update Account
+    [Documentation]    更新账户信息
+    [Tags]    update_account
+    [Template]    Update_Account_Temp
+    更新已经存在的账户：    ${EMPTY}    0001    1
+
+*** Keywords ***
+Update_Account_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${newAccount}    ${account}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update_account    ${cookie}    ${newAccount}    ${account}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

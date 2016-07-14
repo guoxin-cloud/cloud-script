@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_question_api_resource.txt
+
+*** Test Cases ***
+Update Room Question
+    [Documentation]    更新单条播间问题
+    [Tags]    Update Room Question
+    [Template]    Update_Room_Question_Temp
+    01添加正确的账户信息    ${EMPTY}    3    1
+
+*** Keywords ***
+Update_Room_Question_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update room question    ${cookie}    ${id}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

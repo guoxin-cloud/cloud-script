@@ -1,0 +1,33 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create room quick answer
+    [Arguments]    ${cookie}    ${content}    ${creatorId}    ${roomId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${CREATE_ROOM_QUICK_ANSWER_URL}    ${cookie}    content    ${content}
+    ...    creatorId    ${creatorId}    roomId    ${roomId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}
+
+update room quick answer
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${UPDATE_ROOM_QUICK_ANSWER_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    ${message}=    Run Keyword IF    '${success}'!='1'    Set Variable    ${resp.json()['message']}
+    ...    ELSE    Set Variable    ${EMPTY}
+    [Return]    ${resp}    ${success}    ${message}
+
+delete room quick answer
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${DELETE_ROOM_QUICK_ANSWER_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+page room quick answer
+    [Arguments]    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${PAGE__ROOM_QUICK_ANSWER_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}

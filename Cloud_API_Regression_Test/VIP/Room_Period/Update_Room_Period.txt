@@ -1,0 +1,19 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip_room_period_api_resource.txt
+
+*** Test Cases ***
+Update Room Period
+    [Documentation]    增加账户信息
+    [Tags]    Update Room Period
+    [Template]    Update_Room _Period_Temp
+    添加正确的账户信息：    ${EMPTY}    2016-04-05 10:36:21    ceshi    2016-04-06 10:36:21    5    False
+    ...    2000    123    2016-04-06 09:36:21    1
+
+*** Keywords ***
+Update_Room _Period_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${createdTime}    ${direction}    ${endTime}    ${id}
+    ...    ${isDeleted}    ${prestige}    ${roomId}    ${startTime}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    Update Room Period    ${cookie}    ${createdTime}    ${direction}    ${endTime}    ${id}
+    ...    ${isDeleted}    ${prestige}    ${roomId}    ${startTime}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

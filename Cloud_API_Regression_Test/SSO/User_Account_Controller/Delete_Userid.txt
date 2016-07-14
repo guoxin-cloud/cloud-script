@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../../RESOURCE/user_account_api_resource.txt
+
+*** Test Cases ***
+Delete Userid
+    [Documentation]    根据用户主键id删除账号信息
+    [Tags]    delete_userid
+    [Template]    Delete_Userid_Temp
+    删除已经存在的账户：    ${EMPTY}    0001    1
+
+*** Keywords ***
+Delete_Userid_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${userId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    delete_userid    ${cookie}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

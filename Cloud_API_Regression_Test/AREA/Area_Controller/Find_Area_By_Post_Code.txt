@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/area_area_api_resource.txt
+
+*** Test Cases ***
+Find Area By Post Code
+    [Documentation]    增加账户信息
+    [Tags]    add
+    [Template]    Find_Area_By_Post_Code_Temp
+    查找正确的信息：    ${EMPTY}    100084    1
+    查找错误的信息：    ${EMPTY}    100084    0
+
+*** Keywords ***
+Find_Area_By_Post_Code_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${value}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    find area by post code    ${cookie}    ${value}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

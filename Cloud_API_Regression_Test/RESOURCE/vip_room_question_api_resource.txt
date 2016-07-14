@@ -1,0 +1,32 @@
+*** Settings ***
+Resource          ../public_api_resource.html
+
+*** Keywords ***
+create room question
+    [Arguments]    ${cookie}    ${askerId}    ${periodId}    ${question}    ${roomId}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${CREATE_ROOM_QUESTION_URL}    ${cookie}    askerId    ${askerId}
+    ...    periodId    ${periodId}    question    ${question}    roomId    ${roomId}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${value}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['value']}
+    [Return]    ${resp}    ${success}
+
+update room question
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${UPDATE_ROOM_QUESTION_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+delete room question
+    [Arguments]    ${cookie}    ${id}
+    ${resp}=    Post Request with Dict and Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${DELETE_ROOM_QUESTION_URL}    ${cookie}    id    ${id}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}
+
+page room question
+    [Arguments]    ${cookie}
+    ${resp}=    Get Request with Cookie    ${API_ROOT_URL}:${VIP_PORT}    ${PAGE__ROOM_QUESTION_URL}    ${cookie}
+    ${status}    ${success}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['success']}
+    #${status}    ${message}=    Run Keyword And Ignore Error    Set Variable    ${resp.json()['message']}
+    [Return]    ${resp}    ${success}

@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/vip__room_live_api_resource.txt
+
+*** Test Cases ***
+Create Room Live
+    [Documentation]    创建单条播间期，支持POST方法
+    [Tags]    create room live
+    [Template]    Create_Room_Live_Temp
+    添加正确的账户信息：    ${EMPTY}    333    23    5    123    1
+
+*** Keywords ***
+Create_Room_Live_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${content}    ${periodId}    ${roomId}    ${userId}
+    ...    ${success}
+    Log    ${testdata_info}
+    ${resp}=    create room live    ${cookie}    ${content}    ${periodId}    ${roomId}    ${userId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}

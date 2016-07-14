@@ -1,0 +1,17 @@
+*** Settings ***
+Resource          ../../RESOURCE/customer_level_resource_controller_api_resource.txt
+
+*** Test Cases ***
+Update Customer Level Resource
+    [Documentation]    更新用户等级信息
+    [Tags]    Update Customer Level Resource
+    [Template]    Update_Customer_Level_Resource_Temp
+    增长更新用户等级信息：    ${EMPTY}    1    6    1
+    对同一账户进行多次更新：    ${EMPTY}    1    6    1
+
+*** Keywords ***
+Update_Customer_Level_Resource_Temp
+    [Arguments]    ${testdata_info}    ${cookie}    ${id}    ${resId}    ${success}
+    Log    ${testdata_info}
+    ${resp}=    update customer level resource    ${cookie}    ${id}    ${resId}
+    Should Be Equal As Strings    ${resp[1]}    ${success}
